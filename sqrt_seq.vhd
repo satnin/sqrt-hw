@@ -195,11 +195,6 @@ begin
 					when DONE =>
 						reg_A <= reg_A;
 						s_count <= s_count;
-						if unsigned(reg_X) > unsigned(reg_A) then
-							Resultat <= reg_Z_v(nb_bits-1 downto 0);
-						else
-							Resultat <= reg_Z(nb_bits-1 downto 0);
-						end if;
 					when others =>
 				end case;
 			end if;
@@ -238,6 +233,11 @@ begin
 				fini <= '0';
 			when DONE =>
 				fini <= '1';
+				if unsigned(reg_X) > unsigned(reg_A) then
+					Resultat <= reg_Z_v(nb_bits-1 downto 0);
+				else
+					Resultat <= reg_Z(nb_bits-1 downto 0);
+				end if;
 			when others =>
 		end case;
 	end process;
