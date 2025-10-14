@@ -56,7 +56,7 @@ NIOS0 : component nios_system
         );
 
 pclk : process
-        constant nb_period : natural := 100;
+        constant nb_period : natural := 5000;
         begin
             sig_clk <= '0';
             wait for 10 ns;
