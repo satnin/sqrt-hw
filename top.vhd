@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 
 entity top is
 	generic(
-		nb_bits : integer := 32;
+		nb_bits : integer := 32
 	);
    PORT
 	(
