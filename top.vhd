@@ -15,8 +15,10 @@ end top;
 
 architecture inst of top is
 
-signal sig_A : unsigned(63 downto 0);
-signal sig_S, sig_S2 : unsigned(31 downto 0);
+-- signal sig_A : unsigned(63 downto 0);
+-- signal sig_S, sig_S2 : unsigned(31 downto 0);
+signal sig_A_v : std_logic_vector(63 downto 0);
+signal sig_S_v, sig_S2 : std_logic_vector(31 downto 0);
 signal sig_clk, sig_reset, sig_debut, sig_fin, sig_fin2 : std_logic;
 
 component nios_system is
@@ -36,12 +38,12 @@ begin
 -- LEDG(0) <= sig_fin;
 
 circuit: entity work.sqrt_seq(archi1)
-		generic map(nb_bits => 64)
-		port map(A => std_logic_vector(sig_A), clk => sig_clk, debut => sig_debut, Resultat => std_logic_vector(sig_S), reset => sig_reset, fini => sig_fin);
+		generic map(nb_bits => 32)
+		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S_v, reset => sig_reset, fini => sig_fin);
 
-circuit2: entity work.sqrt_seq(archi1)
-		generic map(nb_bits => 64)
-		port map(A => std_logic_vector(sig_A), clk => sig_clk, debut => sig_debut, Resultat => std_logic_vector(sig_S2), reset => sig_reset, fini => sig_fin2);
+circuit2: entity work.sqrt_seq(archi2)
+		generic map(nb_bits => 32)
+		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S2, reset => sig_reset, fini => sig_fin2);
 		
 	
 NIOS0 : component nios_system
