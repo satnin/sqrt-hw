@@ -169,7 +169,7 @@ begin
 					when IDLE =>
 						reg_A <= A;
 						s_count <= 0;
-						reg_X <= std_logic_vector(to_unsigned(2**(2*nb_bits-2), 2*nb_bits));
+						reg_X <= std_logic_vector(to_unsigned(2**(nb_bits-2), nb_bits))&std_logic_vector(to_unsigned(0, nb_bits));
 						reg_V <= std_logic_vector(to_unsigned(2**(nb_bits-2), 2*nb_bits));
 						reg_Z <= std_logic_vector(to_unsigned(2**(nb_bits-1), 2*nb_bits));
 						s_idx <= 0;
@@ -197,8 +197,6 @@ begin
 							Resultat <= reg_Z(nb_bits-1 downto 0);
 						end if;
 					when others =>
-						reg_A <= reg_A;
-						s_count <= s_count;
 				end case;
 			end if;
 		end if;
