@@ -151,7 +151,7 @@ type TState is (IDLE, COMPUTE, DONE);
 	signal reg_X	: std_logic_vector(2*nb_bits-1 downto 0);
 	signal reg_V	: std_logic_vector(2*nb_bits-1 downto 0);
 	signal s_count : natural :=0; 
-	signal s_idx : natural :=0;
+	signal s_idx : integer :=0;
 	
 	signal reg_Z_v	: std_logic_vector(2*nb_bits-1 downto 0);
 begin
