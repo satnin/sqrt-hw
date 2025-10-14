@@ -3,6 +3,9 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity top is
+	generic(
+		nb_bits : integer := 32;
+	);
    PORT
 	(
 		SW: IN UNSIGNED(17 downto 0);
@@ -15,10 +18,10 @@ end top;
 
 architecture inst of top is
 
--- signal sig_A : unsigned(63 downto 0);
--- signal sig_S, sig_S2 : unsigned(31 downto 0);
-signal sig_A_v : std_logic_vector(63 downto 0);
-signal sig_S_v, sig_S2 : std_logic_vector(31 downto 0);
+-- signal sig_A : unsigned(2*nb_bits-1 downto 0);
+-- signal sig_S, sig_S2 : unsigned(nb_bits-1 downto 0);
+signal sig_A_v : std_logic_vector(2*nb_bits-1 downto 0);
+signal sig_S_v, sig_S2 : std_logic_vector(nb_bits-1 downto 0);
 signal sig_clk, sig_reset, sig_debut, sig_fin, sig_fin2 : std_logic;
 
 component nios_system is
@@ -38,11 +41,11 @@ begin
 -- LEDG(0) <= sig_fin;
 
 circuit: entity work.sqrt_seq(archi1)
-		generic map(nb_bits => 32)
+		generic map(nb_bits => nb_bits)
 		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S_v, reset => sig_reset, fini => sig_fin);
 
 circuit2: entity work.sqrt_seq(archi2)
-		generic map(nb_bits => 32)
+		generic map(nb_bits => nb_bits)
 		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S2, reset => sig_reset, fini => sig_fin2);
 		
 	
@@ -72,7 +75,7 @@ pcarre : process
                 sig_reset <= '1';
                 wait for 5 ns;
                 sig_reset <= '0';
-                sig_A_v <= std_logic_vector(to_unsigned(2550409, 64));
+                sig_A_v <= std_logic_vector(to_unsigned(2550409, 2*nb_bits));
                 wait for 15 ns;
                 sig_debut <= '1';
                 wait for 15 ns;
@@ -88,7 +91,7 @@ pcarre : process
 				sig_reset <= '1';
                 wait for 5 ns;
                 sig_reset <= '0';
-                sig_A_v <= std_logic_vector(to_unsigned(10000, 64));
+                sig_A_v <= std_logic_vector(to_unsigned(10000, 2*nb_bits));
                 wait for 15 ns;
                 sig_debut <= '1';
                 wait for 15 ns;
@@ -104,7 +107,7 @@ pcarre : process
 				sig_reset <= '1';
                 wait for 5 ns;
                 sig_reset <= '0';
-                sig_A_v <= std_logic_vector(to_unsigned(65025, 64));
+                sig_A_v <= std_logic_vector(to_unsigned(65025, 2*nb_bits));
                 wait for 15 ns;
                 sig_debut <= '1';
                 wait for 15 ns;
@@ -120,7 +123,7 @@ pcarre : process
 				sig_reset <= '1';
                 wait for 5 ns;
                 sig_reset <= '0';
-                sig_A_v <= std_logic_vector(to_unsigned(144, 64));
+                sig_A_v <= std_logic_vector(to_unsigned(144, 2*nb_bits));
                 wait for 15 ns;
                 sig_debut <= '1';
                 wait for 15 ns;
@@ -136,7 +139,7 @@ pcarre : process
 				sig_reset <= '1';
                 wait for 5 ns;
                 sig_reset <= '0';
-                sig_A_v <= std_logic_vector(to_unsigned(50, 64));
+                sig_A_v <= std_logic_vector(to_unsigned(50, 2*nb_bits));
                 wait for 15 ns;
                 sig_debut <= '1';
                 wait for 15 ns;

@@ -178,10 +178,10 @@ begin
 						s_count <= s_count + 1;
 						reg_V <= '0'&reg_V(2*nb_bits-1 downto 1);
 						if unsigned(reg_X) > unsigned(reg_A) then
-							reg_X <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V)*(unsigned(reg_V)-unsigned(reg_Z(2*nb_bits-1 downto 1)&'0')));
+							reg_X <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V)+(unsigned(reg_V)-unsigned(reg_Z(2*nb_bits-1 downto 1)&'0')));
 							reg_Z <= std_logic_vector(unsigned(reg_Z)-unsigned(reg_V));
 						elsif unsigned(reg_X) < unsigned(reg_A) then
-							reg_X <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V)*(unsigned(reg_V)+unsigned(reg_Z(2*nb_bits-1 downto 1)&'0')));
+							reg_X <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V)+(unsigned(reg_V)+unsigned(reg_Z(2*nb_bits-1 downto 1)&'0')));
 							reg_Z <= std_logic_vector(unsigned(reg_Z)+unsigned(reg_V));
 						else
 							reg_X <= reg_X;
