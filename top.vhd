@@ -78,10 +78,10 @@ pcarre : process
                 wait for 15 ns;
                 sig_debut <= '0';
                 while sig_fin='0' loop
-				wait for 25 ns;
+					wait for 1 ns;
 				end loop;
                 while sig_fin2='0' loop
-				wait for 25 ns;
+					wait for 1 ns;
 				end loop;
                 wait for 5 ns;
 				
@@ -93,8 +93,12 @@ pcarre : process
                 sig_debut <= '1';
                 wait for 15 ns;
                 sig_debut <= '0';
-                wait until sig_fin='1';
-                wait until sig_fin2='1';
+                while sig_fin='0' loop
+					wait for 1 ns;
+				end loop;
+                while sig_fin2='0' loop
+					wait for 1 ns;
+				end loop;
                 wait for 5 ns;
 				
 				sig_reset <= '1';
@@ -105,8 +109,12 @@ pcarre : process
                 sig_debut <= '1';
                 wait for 15 ns;
                 sig_debut <= '0';
-                wait until sig_fin='1';
-                wait until sig_fin2='1';
+                while sig_fin='0' loop
+					wait for 1 ns;
+				end loop;
+                while sig_fin2='0' loop
+					wait for 1 ns;
+				end loop;
                 wait for 5 ns;
 				
 				sig_reset <= '1';
@@ -117,8 +125,12 @@ pcarre : process
                 sig_debut <= '1';
                 wait for 15 ns;
                 sig_debut <= '0';
-                wait until sig_fin='1';
-                wait until sig_fin2='1';
+                while sig_fin='0' loop
+					wait for 1 ns;
+				end loop;
+                while sig_fin2='0' loop
+					wait for 1 ns;
+				end loop;
                 wait for 5 ns;
 				
 				sig_reset <= '1';
@@ -129,8 +141,12 @@ pcarre : process
                 sig_debut <= '1';
                 wait for 15 ns;
                 sig_debut <= '0';
-                wait until sig_fin='1';
-                wait until sig_fin2='1';
+                while sig_fin='0' loop
+					wait for 1 ns;
+				end loop;
+                while sig_fin2='0' loop
+					wait for 1 ns;
+				end loop;
                 wait for 5 ns;
             end loop;
             wait;
