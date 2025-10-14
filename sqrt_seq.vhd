@@ -159,8 +159,8 @@ type TState is (IDLE, COMPUTE, DONE);
 begin
 	
 	reg_Z_v <= std_logic_vector(unsigned(reg_Z)-1);
-	reg_mult_1 <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V)*(unsigned(reg_V)-unsigned(reg_Z(2*nb_bits-1 downto 1)&'0')));
-	reg_mult_2 <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V)*(unsigned(reg_V)+unsigned(reg_Z(2*nb_bits-1 downto 1)&'0')));
+	reg_mult_1 <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V)*(unsigned(reg_V)-unsigned(reg_Z(2*nb_bits-2 downto 0)&'0')));
+	reg_mult_2 <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V)*(unsigned(reg_V)+unsigned(reg_Z(2*nb_bits-2 downto 0)&'0')));
 	
 	process(clk, reset)
 	begin
