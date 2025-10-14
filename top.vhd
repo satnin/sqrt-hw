@@ -41,7 +41,7 @@ circuit: entity work.sqrt_seq(archi1)
 		generic map(nb_bits => 32)
 		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S_v, reset => sig_reset, fini => sig_fin);
 
-circuit2: entity work.sqrt_seq(archi2)
+circuit2: entity work.sqrt_seq(archi1)
 		generic map(nb_bits => 32)
 		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S2, reset => sig_reset, fini => sig_fin2);
 		
