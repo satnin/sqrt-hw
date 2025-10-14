@@ -78,8 +78,10 @@ pcarre : process
                 wait for 15 ns;
                 sig_debut <= '0';
                 while sig_fin='0' loop
+				wait for 25 ns;
 				end loop;
                 while sig_fin2='0' loop
+				wait for 25 ns;
 				end loop;
                 wait for 5 ns;
 				
