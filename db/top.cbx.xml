@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="top">
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_JTAG_UART:jtag_uart|nios_system_JTAG_UART_scfifo_w:the_nios_system_JTAG_UART_scfifo_w|scfifo:wfifo" CBX_FILE_NAME="scfifo_1n21.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_bht_module:nios_system_NIOS_bht|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_61h1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_dc_tag_module:nios_system_NIOS_dc_tag|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_0jg1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_dc_victim_module:nios_system_NIOS_dc_victim|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_9vc1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_mult_cell:the_nios_system_NIOS_mult_cell|altera_mult_add:the_altmult_add_part_1" CBX_FILE_NAME="altera_mult_add_mpt2.v"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_JTAG_UART:jtag_uart|nios_system_JTAG_UART_scfifo_r:the_nios_system_JTAG_UART_scfifo_r|scfifo:rfifo" CBX_FILE_NAME="scfifo_1n21.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|lpm_add_sub:Add18" CBX_FILE_NAME="add_sub_8ri.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_mult_cell:the_nios_system_NIOS_mult_cell|altera_mult_add:the_altmult_add_part_1|altera_mult_add_mpt2:auto_generated|altera_mult_add_rtl:altera_mult_add_rtl1|ama_multiplier_function:multiplier_block|lpm_mult:Mult0" CBX_FILE_NAME="mult_1l01.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_mult_cell:the_nios_system_NIOS_mult_cell|altera_mult_add:the_altmult_add_part_2" CBX_FILE_NAME="altera_mult_add_opt2.v"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_ONCHIP:onchip|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_cfc1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_ic_data_module:nios_system_NIOS_ic_data|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_c9d1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_ic_tag_module:nios_system_NIOS_ic_tag|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_9ah1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_nios2_oci:the_nios_system_NIOS_nios2_oci|nios_system_NIOS_nios2_ocimem:the_nios_system_NIOS_nios2_ocimem|nios_system_NIOS_ociram_sp_ram_module:nios_system_NIOS_ociram_sp_ram|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_1081.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_register_bank_b_module:nios_system_NIOS_register_bank_b|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_7fg1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_dc_data_module:nios_system_NIOS_dc_data|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_29f1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_mult_cell:the_nios_system_NIOS_mult_cell|altera_mult_add:the_altmult_add_part_2|altera_mult_add_opt2:auto_generated|altera_mult_add_rtl:altera_mult_add_rtl1|ama_multiplier_function:multiplier_block|lpm_mult:Mult0" CBX_FILE_NAME="mult_1s01.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|top|nios_system:NIOS0|nios_system_NIOS:nios|nios_system_NIOS_register_bank_a_module:nios_system_NIOS_register_bank_a|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_6fg1.tdf"/>
+	</PROJECT>
+</LOG_ROOT>
