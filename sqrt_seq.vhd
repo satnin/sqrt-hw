@@ -152,7 +152,12 @@ type TState is (IDLE, COMPUTE, DONE);
 	signal reg_V	: std_logic_vector(2*nb_bits-1 downto 0);
 	signal s_count : natural :=0; 
 	signal s_idx : natural :=0;
+	
+	signal reg_Z_v	: std_logic_vector(2*nb_bits-1 downto 0);
 begin
+	
+	reg_Z_v <= std_logic_vector(unsigned(reg_Z)-1);
+	
 	process(clk, reset)
 	begin
 		if(reset='1') then
@@ -184,7 +189,7 @@ begin
 						reg_A <= reg_A;
 						s_count <= s_count;
 						if unsigned(reg_X) > unsigned(reg_A) then
-							Resultat <= (std_logic_vector(unsigned(reg_Z)-1))(nb_bits-1 downto 0);
+							Resultat <= reg_Z_v(nb_bits-1 downto 0);
 						else
 							Resultat <= reg_Z(nb_bits-1 downto 0);
 						end if;
