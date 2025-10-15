@@ -14,8 +14,8 @@ end entity sqrt_transformer;
 architecture arch of sqrt_transformer is
 begin
 	oZ <= '0'&iZ(2*nb_bits-1 downto 1) when unsigned(iX) < (unsigned(iZ) + unsigned(iV))
-			std_logic_vector(unsigned('0'&iZ(2*nb_bits-1 downto 1))+unsigned(iV)) when others;
+		else std_logic_vector(unsigned('0'&iZ(2*nb_bits-1 downto 1))+unsigned(iV));
 	oX <= iX when unsigned(iX) < (unsigned(iZ) + unsigned(iV))
-			std_logic_vector(unsigned(iX) - unsigned(iZ) - unsigned(iV)) when others;
+		else std_logic_vector(unsigned(iX) - unsigned(iZ) - unsigned(iV));
 	oV <= "00"&iV(2*nb_bits-1 downto 2);
 end arch;
