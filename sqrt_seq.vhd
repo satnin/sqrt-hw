@@ -201,7 +201,7 @@ begin
 		end if;
 	end process ; -- state
 	
-	process(state,reg_Z,reg_X,reg_V,debut)
+	process(state,reg_Z,reg_X,reg_V,debut, s_idx)
 	begin
 		case state is
 			when IDLE =>	
@@ -305,7 +305,7 @@ begin
 		end if;
 	end process ; -- state
 	
-	process(state,reg_Z,reg_X,reg_V,debut)
+	process(state,reg_Z,reg_X,reg_V,debut, s_idx)
 	begin
 		case state is
 			when IDLE =>	
