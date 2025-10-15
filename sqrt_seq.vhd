@@ -151,7 +151,7 @@ type TState is (IDLE, COMPUTE, DONE);
 	signal reg_X	: std_logic_vector(2*nb_bits-1 downto 0);
 	signal reg_V	: std_logic_vector(2*nb_bits-1 downto 0);
 	
-	signal reg_mult_1, reg_mult_2	: std_logic_vector(2*nb_bits-1 downto 0);
+	signal reg_mult_1, reg_mult_2	: std_logic_vector(2*nb_bits downto 0);
 	signal s_count : integer :=0; 
 	signal s_idx : integer :=0;
 	
@@ -159,8 +159,8 @@ type TState is (IDLE, COMPUTE, DONE);
 begin
 	
 	reg_Z_v <= std_logic_vector(unsigned(reg_Z)-1);
-	reg_mult_1 <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V(nb_bits downto 0))*(unsigned(reg_V(nb_bits downto 0))-unsigned(reg_Z(nb_bits-1 downto 0)&'0')));
-	reg_mult_2 <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V(nb_bits downto 0))*(unsigned(reg_V(nb_bits downto 0))+unsigned(reg_Z(nb_bits-1 downto 0)&'0')));
+	reg_mult_1 <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V(nb_bits-1 downto 0))*(unsigned(reg_V(nb_bits-1 downto 0))-unsigned(reg_Z(nb_bits-1 downto 0)&'0')));
+	reg_mult_2 <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V(nb_bits-1 downto 0))*(unsigned(reg_V(nb_bits-1 downto 0))+unsigned(reg_Z(nb_bits-1 downto 0)&'0')));
 	
 	process(clk, reset)
 	begin
