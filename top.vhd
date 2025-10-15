@@ -123,7 +123,7 @@ pcarre : process
 				sig_reset <= '1';
                 wait for 5 ns;
                 sig_reset <= '0';
-                sig_A_v <= std_logic_vector(to_unsigned(255, 2*nb_bits));
+                sig_A_v <= std_logic_vector(to_unsigned(144, 2*nb_bits));
                 wait for 15 ns;
                 sig_debut <= '1';
                 wait for 15 ns;
