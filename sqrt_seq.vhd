@@ -285,14 +285,13 @@ begin
 						s_idx <= 0;
 					when COMPUTE =>
 						reg_A <= reg_A;
-						reg_Z <= std_logic_vector(unsigned(reg_Z)+unsigned(reg_V));
 						s_count <= s_count + 1;
 						
 						if unsigned(reg_X) < (unsigned(reg_Z) + unsigned(reg_V)) then
 							reg_Z <= '0'&reg_Z(2*nb_bits-1 downto 1);
 						else
 							reg_Z <= std_logic_vector(unsigned('0'&reg_Z(2*nb_bits-1 downto 1))+unsigned(reg_V));
-							reg_X <= std_logic_vector(unsigned(reg_X) - (unsigned(reg_Z) + unsigned(reg_V)));
+							reg_X <= std_logic_vector(unsigned(reg_X) - unsigned(reg_Z) - unsigned(reg_V));
 						end if;
 						reg_V <= "00"&reg_V(2*nb_bits-1 downto 2);
 						s_idx <= s_idx + 1;
