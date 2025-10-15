@@ -280,7 +280,7 @@ begin
 						reg_A <= A;
 						s_count <= 0;
 						reg_X <= A;
-						reg_V <= std_logic_vector(to_unsigned(2**(nb_bits-2), 2*nb_bits));
+						reg_V <= std_logic_vector(to_unsigned(2**(nb_bits-2), nb_bits))&std_logic_vector(to_unsigned(0, nb_bits));
 						reg_Z <= std_logic_vector(to_unsigned(0, 2*nb_bits));
 						s_idx <= 0;
 					when COMPUTE =>
