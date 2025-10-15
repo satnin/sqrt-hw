@@ -21,8 +21,8 @@ architecture inst of top is
 -- signal sig_A : unsigned(2*nb_bits-1 downto 0);
 -- signal sig_S, sig_S2 : unsigned(nb_bits-1 downto 0);
 signal sig_A_v : std_logic_vector(2*nb_bits-1 downto 0);
-signal sig_S_v, sig_S2 : std_logic_vector(nb_bits-1 downto 0);
-signal sig_clk, sig_reset, sig_debut, sig_fin, sig_fin2 : std_logic;
+signal sig_S_v, sig_S2, sig_S3 : std_logic_vector(nb_bits-1 downto 0);
+signal sig_clk, sig_reset, sig_debut, sig_fin, sig_fin2, sig_fin3 : std_logic;
 
 component nios_system is
   port (
@@ -47,6 +47,10 @@ circuit: entity work.sqrt_seq(archi1)
 circuit2: entity work.sqrt_seq(archi2)
 		generic map(nb_bits => nb_bits)
 		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S2, reset => sig_reset, fini => sig_fin2);
+	
+circuit3: entity work.sqrt_seq(archi3)
+		generic map(nb_bits => nb_bits)
+		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S3, reset => sig_reset, fini => sig_fin3);
 		
 	
 NIOS0 : component nios_system
@@ -86,6 +90,9 @@ pcarre : process
                 while sig_fin2='0' loop
 					wait for 1 ns;
 				end loop;
+				while sig_fin3='0' loop
+					wait for 1 ns;
+				end loop;
                 wait for 5 ns;
 				
 				sig_reset <= '1';
@@ -100,6 +107,9 @@ pcarre : process
 					wait for 1 ns;
 				end loop;
                 while sig_fin2='0' loop
+					wait for 1 ns;
+				end loop;
+				while sig_fin3='0' loop
 					wait for 1 ns;
 				end loop;
                 wait for 5 ns;
@@ -118,6 +128,9 @@ pcarre : process
                 while sig_fin2='0' loop
 					wait for 1 ns;
 				end loop;
+				while sig_fin3='0' loop
+					wait for 1 ns;
+				end loop;
                 wait for 5 ns;
 				
 				sig_reset <= '1';
@@ -134,6 +147,9 @@ pcarre : process
                 while sig_fin2='0' loop
 					wait for 1 ns;
 				end loop;
+				while sig_fin3='0' loop
+					wait for 1 ns;
+				end loop;
                 wait for 5 ns;
 				
 				sig_reset <= '1';
@@ -148,6 +164,9 @@ pcarre : process
 					wait for 1 ns;
 				end loop;
                 while sig_fin2='0' loop
+					wait for 1 ns;
+				end loop;
+				while sig_fin3='0' loop
 					wait for 1 ns;
 				end loop;
                 wait for 5 ns;

@@ -245,6 +245,106 @@ begin
 	count <= std_logic_vector(to_unsigned(s_count, 2*nb_bits));
 	 
 end archi2;
+
+architecture archi3 of sqrt_seq is 
+
+type TState is (IDLE, COMPUTE, DONE);
+    signal state       	: TState := IDLE;
+    signal f_state       : TState := IDLE;
+	
+	signal reg_A	: std_logic_vector(2*nb_bits-1 downto 0);
+	signal reg_Z	: std_logic_vector(2*nb_bits-1 downto 0);
+	signal reg_X	: std_logic_vector(2*nb_bits-1 downto 0);
+	signal reg_V	: std_logic_vector(2*nb_bits-1 downto 0);
+	
+	-- signal reg_mult_1, reg_mult_2	: std_logic_vector(4*nb_bits-1 downto 0);
+	signal s_count : integer :=0; 
+	signal s_idx : integer :=0;
+	
+	-- signal reg_Z_v	: std_logic_vector(2*nb_bits-1 downto 0);
+begin
+	
+	-- reg_Z_v <= std_logic_vector(unsigned(reg_Z)-1);
+	-- reg_mult_1 <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V)*(unsigned(reg_V)-unsigned(reg_Z(2*nb_bits-2 downto 0)&'0')));
+	-- reg_mult_2 <= std_logic_vector(unsigned(reg_X)+unsigned(reg_V)*(unsigned(reg_V)+unsigned(reg_Z(2*nb_bits-2 downto 0)&'0')));
+	
+	process(clk, reset)
+	begin
+		if(reset='1') then
+			state <= IDLE;
+		else
+			if rising_edge(clk) then
+				state <= f_state;
+				case state is
+					when IDLE =>
+						reg_A <= A;
+						s_count <= 0;
+						reg_X <= A;
+						reg_V <= std_logic_vector(to_unsigned(2**(nb_bits-2), 2*nb_bits));
+						reg_Z <= std_logic_vector(to_unsigned(0, 2*nb_bits));
+						s_idx <= 0;
+					when COMPUTE =>
+						reg_A <= reg_A;
+						reg_Z <= std_logic_vector(unsigned(reg_Z)+unsigned(reg_V));
+						s_count <= s_count + 1;
+						
+						if unsigned(reg_X) < (unsigned(reg_Z) + unsigned(reg_V)) then
+							reg_Z <= '0'&reg_Z(2*nb_bits-1 downto 1);
+						else
+							reg_Z <= std_logic_vector(unsigned('0'&reg_Z(2*nb_bits-1 downto 1))+unsigned(reg_V));
+							reg_X <= std_logic_vector(unsigned(reg_X) - (unsigned(reg_Z) + unsigned(reg_V)));
+						end if;
+						reg_V <= "00"&reg_V(2*nb_bits-1 downto 2);
+						s_idx <= s_idx + 1;
+					when DONE =>
+						reg_A <= reg_A;
+						s_count <= s_count;
+					when others =>
+				end case;
+			end if;
+		end if;
+	end process ; -- state
+	
+	process(state,reg_Z,reg_X,reg_V,debut)
+	begin
+		case state is
+			when IDLE =>	
+				if debut='1' then
+					f_state <= COMPUTE;
+				else
+					f_state <= IDLE;
+				end if;
+			when COMPUTE =>
+				if s_idx = (nb_bits - 1) then
+					f_state <= DONE;
+				else
+					f_state <= COMPUTE;
+				end if;
+			when DONE =>
+				f_state <= DONE;
+			when others =>
+			   f_state <= IDLE;
+		end case;
+	end process;
+	
+	process(state)
+	begin
+		case state is
+			when IDLE =>	
+				fini <= '0';
+
+			when COMPUTE =>
+				fini <= '0';
+			when DONE =>
+				fini <= '1';
+				Resultat <= reg_Z(nb_bits-1 downto 0);
+			when others =>
+		end case;
+	end process;
+	
+	count <= std_logic_vector(to_unsigned(s_count, 2*nb_bits));
+	 
+end archi3;
 --
 --architecture archi3 of sqrt_seq is 
 --begin
