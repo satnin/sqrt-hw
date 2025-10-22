@@ -345,13 +345,32 @@ begin
 	 
 end archi3;
 --
---architecture archi3 of sqrt_seq is 
---begin
---end archi3;
+
 --
---architecture archi4 of sqrt_seq is 
---begin
---end archi4;
+architecture archi4 of sqrt_seq is 
+type b_array is array (0 to nb_bits) of std_logic_vector(2*nb_bits-1 downto 0);
+signal s_X_tab, s_Z_tab, s_V_tab : b_array;
+begin
+
+	s_X_tab(0) <= A;
+	s_V_tab(0) <= std_logic_vector(to_unsigned(2**(nb_bits-2), nb_bits))&std_logic_vector(to_unsigned(0, nb_bits));
+	s_Z_tab(0) <= std_logic_vector(to_unsigned(0, 2*nb_bits));
+	
+	Resultat <= s_Z_tab(nb_bits);
+	
+	gen_components : for i in 0 to (nb_bits - 1) generate
+		entity work.sqrt_transformer(arch)
+		generic map(nb_bits => nb_bits)
+        port map (
+            iX => s_X_tab(i),
+            iZ => s_Z_tab(i),
+            iV => s_V_tab(i),
+            oX => s_X_tab(i+1),
+            oZ => s_Z_tab(i+1),
+            oV => s_V_tab(i+1)
+        );
+	end generate;
+end archi4;
 --
 --architecture archi5 of sqrt_seq is 
 --begin
