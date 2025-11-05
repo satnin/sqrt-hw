@@ -82,7 +82,11 @@ begin
 					when IDLE =>
 						reg_A <= A;
 						s_count <= 0;
-						reg_R <= '0'&reg_A(2*nb_bits-1 downto 1);
+						if unsigned(reg_A) > 1 then
+							reg_R <= '0'&reg_A(2*nb_bits-1 downto 1);
+						else
+							reg_R <= reg_A;
+						end if;
 						reg_R_prev <= reg_A;
 					when COMPUTE =>
 						reg_A <= reg_A;
@@ -111,6 +115,8 @@ begin
 				end if;
 			when COMPUTE =>
 				if unsigned(reg_R) = unsigned(reg_R_prev) then
+					f_state <= DONE;
+				elsif unsigned(reg_R)-1 = unsigned(reg_R_prev) then
 					f_state <= DONE;
 				else
 					f_state <= COMPUTE;
@@ -187,9 +193,6 @@ begin
 						elsif unsigned(reg_X) < unsigned(reg_A) then
 							reg_X <= reg_mult_2(2*nb_bits-1 downto 0);
 							reg_Z <= std_logic_vector(unsigned(reg_Z)+unsigned(reg_V));
-						else
-							reg_X <= reg_X;
-							reg_Z <= reg_Z;
 						end if;
 						s_idx <= s_idx + 1;
 					when DONE =>
@@ -223,7 +226,7 @@ begin
 		end case;
 	end process;
 	
-	process(state)
+	process(state, reg_A, reg_X, reg_Z_v, reg_Z)
 	begin
 		case state is
 			when IDLE =>	
@@ -233,7 +236,9 @@ begin
 				fini <= '0';
 			when DONE =>
 				fini <= '1';
-				if unsigned(reg_X) > unsigned(reg_A) then
+				if unsigned(reg_A) < 2 then
+					Resultat <= reg_A(nb_bits-1 downto 0);
+				elsif unsigned(reg_X) > unsigned(reg_A) then
 					Resultat <= reg_Z_v(nb_bits-1 downto 0);
 				else
 					Resultat <= reg_Z(nb_bits-1 downto 0);
@@ -326,7 +331,7 @@ begin
 		end case;
 	end process;
 	
-	process(state)
+	process(state, reg_A, reg_Z)
 	begin
 		case state is
 			when IDLE =>	
@@ -336,7 +341,12 @@ begin
 				fini <= '0';
 			when DONE =>
 				fini <= '1';
-				Resultat <= reg_Z(nb_bits-1 downto 0);
+				if unsigned(reg_A) < 2 then
+					Resultat <= reg_A(nb_bits-1 downto 0);
+				else
+					Resultat <= reg_Z(nb_bits-1 downto 0);
+				end if;
+				
 			when others =>
 		end case;
 	end process;
@@ -356,10 +366,10 @@ begin
 	s_V_tab(0) <= std_logic_vector(to_unsigned(2**(nb_bits-2), nb_bits))&std_logic_vector(to_unsigned(0, nb_bits));
 	s_Z_tab(0) <= std_logic_vector(to_unsigned(0, 2*nb_bits));
 	
-	Resultat <= s_Z_tab(nb_bits);
+	Resultat <= s_Z_tab(nb_bits)(nb_bits-1 downto 0);
 	
 	gen_components : for i in 0 to (nb_bits - 1) generate
-		entity work.sqrt_transformer(arch)
+		trans_i: entity work.sqrt_transformer(arch)
 		generic map(nb_bits => nb_bits)
         port map (
             iX => s_X_tab(i),
@@ -371,6 +381,47 @@ begin
         );
 	end generate;
 end archi4;
+
+architecture archi5 of sqrt_seq is 
+type b_array is array (0 to nb_bits) of std_logic_vector(2*nb_bits-1 downto 0);
+signal s_X_tab, s_Z_tab, s_V_tab : b_array;
+signal s_X_tab_r, s_Z_tab_r, s_V_tab_r : b_array;
+begin
+
+	s_X_tab_r(0) <= A;
+	s_V_tab_r(0) <= std_logic_vector(to_unsigned(2**(nb_bits-2), nb_bits))&std_logic_vector(to_unsigned(0, nb_bits));
+	s_Z_tab_r(0) <= std_logic_vector(to_unsigned(0, 2*nb_bits));
+	
+	Resultat <= s_Z_tab(nb_bits)(nb_bits-1 downto 0);
+	
+	gen_components : for i in 0 to (nb_bits - 1) generate
+		trans_i: entity work.sqrt_transformer(arch)
+		generic map(nb_bits => nb_bits)
+        port map (
+            iX => s_X_tab(i),
+            iZ => s_Z_tab(i),
+            iV => s_V_tab(i),
+            oX => s_X_tab_r(i+1),
+            oZ => s_Z_tab_r(i+1),
+            oV => s_V_tab_r(i+1)
+        );
+	end generate;
+	
+	gen_registers : for i in 0 to (nb_bits) generate
+		reg_i: entity work.sqrt_transformer_reg(arch)
+		generic map(nb_bits => nb_bits)
+        port map (
+			clk => clk,
+            iX => s_X_tab_r(i),
+            iZ => s_Z_tab_r(i),
+            iV => s_V_tab_r(i),
+            oX => s_X_tab(i),
+            oZ => s_Z_tab(i),
+            oV => s_V_tab(i)
+        );
+	end generate;
+	
+end archi5;
 --
 --architecture archi5 of sqrt_seq is 
 --begin

@@ -1,0 +1,25 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity sqrt_transformer_reg is
+    generic (
+        nb_bits : integer := 32
+    );
+    port (
+		clk      : in  std_logic;
+        iX, iZ, iV        : in   std_logic_vector(2*nb_bits-1 downto 0); 
+        oX, oZ, oV        : out  std_logic_vector(2*nb_bits-1 downto 0) 
+    );
+end entity sqrt_transformer_reg;
+architecture arch of sqrt_transformer_reg is
+begin
+	process(clk)
+	begin
+		if rising_edge(clk) then
+			oZ <= iZ;
+			oX <= iX;
+			oV <= iV;
+		end if;
+	end process ;
+end arch;

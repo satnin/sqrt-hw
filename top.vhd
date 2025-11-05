@@ -21,8 +21,8 @@ architecture inst of top is
 -- signal sig_A : unsigned(2*nb_bits-1 downto 0);
 -- signal sig_S, sig_S2 : unsigned(nb_bits-1 downto 0);
 signal sig_A_v : std_logic_vector(2*nb_bits-1 downto 0);
-signal sig_S_v, sig_S2, sig_S3 : std_logic_vector(nb_bits-1 downto 0);
-signal sig_clk, sig_reset, sig_debut, sig_fin, sig_fin2, sig_fin3 : std_logic;
+signal sig_S_v, sig_S2, sig_S3, sig_S4, sig_S5 : std_logic_vector(nb_bits-1 downto 0);
+signal sig_clk, sig_reset, sig_debut, sig_fin, sig_fin2, sig_fin3, sig_fin4, sig_fin5 : std_logic;
 
 component nios_system is
   port (
@@ -52,6 +52,14 @@ circuit3: entity work.sqrt_seq(archi3)
 		generic map(nb_bits => nb_bits)
 		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S3, reset => sig_reset, fini => sig_fin3);
 		
+circuit4: entity work.sqrt_seq(archi4)
+		generic map(nb_bits => nb_bits)
+		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S4, reset => sig_reset, fini => sig_fin4);
+		
+circuit5: entity work.sqrt_seq(archi5)
+		generic map(nb_bits => nb_bits)
+		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S5, reset => sig_reset, fini => sig_fin5);
+		
 	
 NIOS0 : component nios_system
         port map (
@@ -60,7 +68,7 @@ NIOS0 : component nios_system
         );
 
 pclk : process
-        constant nb_period : natural := 5000;
+        constant nb_period : natural := 500;
         begin
             sig_clk <= '0';
             wait for 10 ns;
@@ -79,7 +87,7 @@ pcarre : process
                 sig_reset <= '1';
                 wait for 5 ns;
                 sig_reset <= '0';
-                sig_A_v <= std_logic_vector(to_unsigned(2550409, 2*nb_bits));
+                sig_A_v <= std_logic_vector(to_unsigned(0, 2*nb_bits));
                 wait for 15 ns;
                 sig_debut <= '1';
                 wait for 15 ns;
@@ -91,6 +99,9 @@ pcarre : process
 					wait for 1 ns;
 				end loop;
 				while sig_fin3='0' loop
+					wait for 1 ns;
+				end loop;
+				while sig_fin4='0' loop
 					wait for 1 ns;
 				end loop;
                 wait for 5 ns;
@@ -98,7 +109,7 @@ pcarre : process
 				sig_reset <= '1';
                 wait for 5 ns;
                 sig_reset <= '0';
-                sig_A_v <= std_logic_vector(to_unsigned(10000, 2*nb_bits));
+                sig_A_v <= std_logic_vector(to_unsigned(1, 2*nb_bits));
                 wait for 15 ns;
                 sig_debut <= '1';
                 wait for 15 ns;
@@ -110,6 +121,9 @@ pcarre : process
 					wait for 1 ns;
 				end loop;
 				while sig_fin3='0' loop
+					wait for 1 ns;
+				end loop;
+				while sig_fin4='0' loop
 					wait for 1 ns;
 				end loop;
                 wait for 5 ns;
@@ -117,7 +131,7 @@ pcarre : process
 				sig_reset <= '1';
                 wait for 5 ns;
                 sig_reset <= '0';
-                sig_A_v <= std_logic_vector(to_unsigned(65025, 2*nb_bits));
+                sig_A_v <= std_logic_vector(to_unsigned(512, 2*nb_bits));
                 wait for 15 ns;
                 sig_debut <= '1';
                 wait for 15 ns;
@@ -129,6 +143,9 @@ pcarre : process
 					wait for 1 ns;
 				end loop;
 				while sig_fin3='0' loop
+					wait for 1 ns;
+				end loop;
+				while sig_fin4='0' loop
 					wait for 1 ns;
 				end loop;
                 wait for 5 ns;
@@ -136,7 +153,7 @@ pcarre : process
 				sig_reset <= '1';
                 wait for 5 ns;
                 sig_reset <= '0';
-                sig_A_v <= std_logic_vector(to_unsigned(144, 2*nb_bits));
+                sig_A_v <= std_logic_vector(to_unsigned(1194877489, 2*nb_bits));
                 wait for 15 ns;
                 sig_debut <= '1';
                 wait for 15 ns;
@@ -148,6 +165,9 @@ pcarre : process
 					wait for 1 ns;
 				end loop;
 				while sig_fin3='0' loop
+					wait for 1 ns;
+				end loop;
+				while sig_fin4='0' loop
 					wait for 1 ns;
 				end loop;
                 wait for 5 ns;
@@ -155,7 +175,7 @@ pcarre : process
 				sig_reset <= '1';
                 wait for 5 ns;
                 sig_reset <= '0';
-                sig_A_v <= std_logic_vector(to_unsigned(2500, 2*nb_bits));
+                sig_A_v <= "0000000000000000000000000000000011111111111111111111111111111111";
                 wait for 15 ns;
                 sig_debut <= '1';
                 wait for 15 ns;
@@ -167,6 +187,9 @@ pcarre : process
 					wait for 1 ns;
 				end loop;
 				while sig_fin3='0' loop
+					wait for 1 ns;
+				end loop;
+				while sig_fin4='0' loop
 					wait for 1 ns;
 				end loop;
                 wait for 5 ns;
@@ -174,5 +197,26 @@ pcarre : process
             wait;
         end process pcarre;
 
+		
+-- pcarre : process
+        -- begin
+            -- for i in 1 to 2 loop
+                -- sig_A_v <= std_logic_vector(to_unsigned(0, 2*nb_bits));
+                -- wait for 20 ns;
+                
+                -- sig_A_v <= std_logic_vector(to_unsigned(1, 2*nb_bits));
+                -- wait for 20 ns;
+                
+                -- sig_A_v <= std_logic_vector(to_unsigned(512, 2*nb_bits));
+                -- wait for 20 ns;
+                
+                -- sig_A_v <= std_logic_vector(to_unsigned(1194877489, 2*nb_bits));
+                -- wait for 20 ns;
+                
+                -- sig_A_v <= "0000000000000000000000000000000011111111111111111111111111111111";
+                -- wait for 20 ns;
+            -- end loop;
+            -- wait;
+        -- end process pcarre;
 		
 end inst;
