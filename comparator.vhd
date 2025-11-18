@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity comparator is
-generic(nb_bits : natural);
+generic(nb_bits : natural :=32);
 port(	A,B : in std_logic_vector(nb_bits-1 downto 0);
 		Seq, Sinf, Ssup : out std_logic
 	);

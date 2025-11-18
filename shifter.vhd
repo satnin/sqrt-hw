@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity shifter is
-generic(nb_bits : natural);
+generic(nb_bits : natural :=32);
 port(	A : in std_logic_vector(nb_bits-1 downto 0);
 		dec : in unsigned((nb_bits-1) downto 0);
 		S : out std_logic_vector(2*nb_bits-1 downto 0)
