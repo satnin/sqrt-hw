@@ -431,6 +431,8 @@ architecture archi6 of sqrt_seq is
 	signal s_encount_C, s_ld_A, s_ld_X, s_ld_V, s_ld_Z, s_ld_R : STD_LOGIC; 
 	signal s_regA_S, s_regX_S, s_regV_S, s_regA_E, s_regX_E, s_regV_E 	: STD_LOGIC_VECTOR(2*nb_bits-1 downto 0); 
 	signal s_regZ_S, s_regR_S, s_regZ_E, s_regR_E 						: STD_LOGIC_VECTOR(nb_bits-1 downto 0); 
+	signal s_regA_S_u, s_regX_S_u, s_regV_S_u 							: unsigned(2*nb_bits-1 downto 0); 
+	signal s_regZ_S_u, s_regR_S_u 										: unsigned(nb_bits-1 downto 0); 
 	
 	signal s_count_S, s_shift_dec : UNSIGNED(nb_bits-1 downto 0); 
 	signal s_comp_inf, s_comp_eq, s_comp_sup : STD_LOGIC; 
@@ -516,7 +518,13 @@ begin
 			Init => s_init_A,
 			ld => s_ld_A,
 			E => unsigned(s_regA_E),
-			S => unsigned(s_regA_S) 
+			S => s_regA_S_u 
         );
 
+	
+	s_regA_S <= STD_LOGIC_VECTOR(s_regA_S_u); 
+	s_regX_S <= STD_LOGIC_VECTOR(s_regX_S_u); 
+	s_regV_S <= STD_LOGIC_VECTOR(s_regV_S_u); 
+	s_regZ_S <= STD_LOGIC_VECTOR(s_regZ_S_u); 
+	s_regR_S <= STD_LOGIC_VECTOR(s_regR_S_u);
 end archi6;
