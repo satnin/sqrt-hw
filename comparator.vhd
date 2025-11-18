@@ -10,21 +10,22 @@ port(	A,B : in std_logic_vector(nb_bits-1 downto 0);
 end comparator;
 
 architecture proced of comparator is
-signal Aint, Bint : unsigned(nb_bits-1 downto 0);
+signal Aint, Bint, Diff : signed(nb_bits-1 downto 0);
 begin
-	Aint <= unsigned(A);
-	Bint <= unsigned(B);
+	Aint <= signed(A);
+	Bint <= signed(B);
+	Diff <= Aint - Bint;
 	P1: process(A, B)
 	begin
 		Seq <= '0';
 		Sinf <= '0';
 		Ssup <= '0';
-		if (Aint < Bint) then
+		if (Diff < 0) then
 			Sinf <= '1';
-		elsif (Bint = Aint) then
-			Seq <= '1';
-		else
+		elsif (Diff > 0) then
 			Ssup <= '1';
+		else
+			Seq <= '1';
 		end if;
 	end process;
 end proced;
