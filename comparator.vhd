@@ -21,10 +21,10 @@ begin
 		Ssup <= '0';
 		if (Aint < Bint) then
 			Sinf <= '1';
-		elsif (Bint > Aint) then
-			Ssup <= '1';
-		else
+		elsif (Bint = Aint) then
 			Seq <= '1';
+		else
+			Ssup <= '1';
 		end if;
 	end process;
 end proced;
