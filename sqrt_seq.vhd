@@ -507,12 +507,14 @@ begin
 						else
 							f_state <= IDLE;
 						end if;
+						
 					when others =>
 				end case;
 			end if;
 		end if;
 	end process ; -- state
 
+	Resultat <= s_regR_S;
 	regA: entity work.reg(proced)
 	generic map(nb_bits => 2*nb_bits)
 	port map (
