@@ -429,14 +429,14 @@ architecture archi6 of sqrt_seq is
     signal f_state       : TState := IDLE;
 	signal s_ceq, s_init_C, s_init_A, s_init_X, s_init_V, s_init_Z, s_init_R : STD_LOGIC; 
 	signal s_encount_C, s_ld_A, s_ld_X, s_ld_V, s_ld_Z, s_ld_R : STD_LOGIC; 
-	signal s_regA_S, s_regX_S, s_regV_S, s_regA_E, s_regX_E, s_regV_E 	: STD_LOGIC_VECTOR(2*nb_bits-1 downto 0); 
-	signal s_regZ_S, s_regR_S, s_regZ_E, s_regR_E 						: STD_LOGIC_VECTOR(nb_bits-1 downto 0); 
-	signal s_regA_S_u, s_regX_S_u, s_regV_S_u 							: unsigned(2*nb_bits-1 downto 0); 
-	signal s_regZ_S_u, s_regR_S_u 										: unsigned(nb_bits-1 downto 0); 
+	signal s_regA_S, s_regX_S, s_regA_E, s_regX_E 						: STD_LOGIC_VECTOR(2*nb_bits-1 downto 0); 
+	signal s_regZ_S, s_regR_S, s_regV_S, s_regZ_E, s_regR_E, s_regV_E 	: STD_LOGIC_VECTOR(nb_bits-1 downto 0); 
+	signal s_regA_S_u, s_regX_S_u 										: unsigned(2*nb_bits-1 downto 0); 
+	signal s_regZ_S_u, s_regR_S_u, s_regV_S_u 										: unsigned(nb_bits-1 downto 0); 
 	
 	signal s_count_S, s_shift_dec : UNSIGNED(nb_bits-1 downto 0); 
 	signal s_comp_inf, s_comp_eq, s_comp_sup : STD_LOGIC; 
-	signal s_muxV_S : UNSIGNED(2*nb_bits -1 downto 0);
+	signal s_muxV_S : UNSIGNED(nb_bits -1 downto 0);
 	signal s_shift_S : STD_LOGIC_VECTOR(2*nb_bits -1 downto 0);
 	signal s_shift_E : STD_LOGIC_VECTOR(nb_bits -1 downto 0);
 	signal s_muxV2_S : UNSIGNED(2*nb_bits -1 downto 0);
@@ -533,17 +533,17 @@ begin
 	);
 
 	regV: entity work.reg(proced)
-	generic map(nb_bits => 2*nb_bits)
+	generic map(nb_bits => nb_bits)
 	port map (
 		clk => clk,
-		valeur => to_unsigned(2**(nb_bits-2), 2*nb_bits),
+		valeur => to_unsigned(2**(nb_bits-2), nb_bits),
 		Init => s_init_V,
 		ld => s_ld_V,
 		E => unsigned(s_regV_E),
 		S => s_regV_S_u 
 	);
 
-	s_regV_E <= '0'&s_regV_S(2*nb_bits-1 downto 1);
+	s_regV_E <= '0'&s_regV_S(nb_bits-1 downto 1);
 
 	
 	regZ: entity work.reg(proced)
@@ -589,12 +589,12 @@ begin
 
 	u_mux3_1 : entity work.mux3_1(proced)
 	generic map(
-		nb_bits  => 2*nb_bits)
+		nb_bits  => nb_bits)
 	port map(
 		-- ports
 		I0   => unsigned(s_regV_S),
-		I1   => TO_UNSIGNED(0, 2*nb_bits),
-		I2   => TO_UNSIGNED(1, 2*nb_bits),
+		I1   => TO_UNSIGNED(0, nb_bits),
+		I2   => TO_UNSIGNED(1, nb_bits),
 		sel(1)  => s_ceq,
 		sel(0)  => s_comp_eq,
 		S    => s_muxV_S
