@@ -663,15 +663,15 @@ begin
 		Op    => s_comp_sup,
 		S     => s_shift_E
 	);
-	add_a : entity work.add_sub(proced)
+	add_x : entity work.add_sub(proced)
 	generic map(
 		nb_bits  => 2*nb_bits)
 	port map(
 		-- ports
-		A     => s_regA_S,
+		A     => s_regX_S,
 		B     => STD_LOGIC_VECTOR(s_muxV2_S),
 		Op    => '0',
-		S     => s_regA_E
+		S     => s_regX_E
 	);
 
 	s_regA_S <= STD_LOGIC_VECTOR(s_regA_S_u); 
