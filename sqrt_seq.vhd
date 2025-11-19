@@ -595,7 +595,8 @@ begin
 		I0   => unsigned(s_regV_S),
 		I1   => TO_UNSIGNED(0, 2*nb_bits),
 		I2   => TO_UNSIGNED(1, 2*nb_bits),
-		sel  => s_ceq&s_comp_eq,
+		sel(1)  => s_ceq,
+		sel(0)  => s_comp_eq,
 		S    => s_muxV_S
 	);
 	u_mux2_1_z : entity work.mux2_1(proced)
