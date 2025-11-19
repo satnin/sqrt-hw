@@ -493,7 +493,7 @@ begin
 				s_init_V <= '1';
 				s_init_Z <= '1';
 			when COMPUTE =>
-				if(s_ceq='0') then
+				if(s_ceq='1') then
 					f_state <= DONE;
 				else
 					f_state <= COMPUTE;
@@ -514,6 +514,7 @@ begin
 				end if;
 				
 			when others =>
+				f_state <= IDLE;
 		end case;
 	end process ; -- state
 
