@@ -529,6 +529,7 @@ begin
 		E => unsigned(s_regA_E),
 		S => s_regA_S_u 
 	);
+	s_regA_E <= s_regA_S;
 
 	regX: entity work.reg(proced)
 	generic map(nb_bits => 2*nb_bits)
