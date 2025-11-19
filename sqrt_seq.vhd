@@ -436,11 +436,11 @@ architecture archi6 of sqrt_seq is
 	
 	signal s_count_S, s_shift_dec : UNSIGNED(nb_bits-1 downto 0); 
 	signal s_comp_inf, s_comp_eq, s_comp_sup : STD_LOGIC; 
-	signal s_muxV_S : STD_LOGIC_VECTOR(2*nb_bits -1 downto 0);
+	signal s_muxV_S : UNSIGNED(2*nb_bits -1 downto 0);
 	signal s_shift_S : STD_LOGIC_VECTOR(2*nb_bits -1 downto 0);
 	signal s_shift_E : STD_LOGIC_VECTOR(nb_bits -1 downto 0);
-	signal s_muxV2_S : STD_LOGIC_VECTOR(2*nb_bits -1 downto 0);
-	signal s_muxZ_S : STD_LOGIC_VECTOR(nb_bits -1 downto 0);
+	signal s_muxV2_S : UNSIGNED(2*nb_bits -1 downto 0);
+	signal s_muxZ_S : UNSIGNED(nb_bits -1 downto 0);
 	signal s_Res : STD_LOGIC_VECTOR(nb_bits -1 downto 0);
 
 	-- signal s_Aint : unsigned(2*nb_bits-1 downto 0);
@@ -510,18 +510,160 @@ begin
 		end if;
 	end process ; -- state
 
-	reg_A: entity work.reg(proced)
-		generic map(nb_bits => 2*nb_bits)
-        port map (
-			clk => clk,
-			valeur => unsigned(A),
-			Init => s_init_A,
-			ld => s_ld_A,
-			E => unsigned(s_regA_E),
-			S => s_regA_S_u 
-        );
+	regA: entity work.reg(proced)
+	generic map(nb_bits => 2*nb_bits)
+	port map (
+		clk => clk,
+		valeur => unsigned(A),
+		Init => s_init_A,
+		ld => s_ld_A,
+		E => unsigned(s_regA_E),
+		S => s_regA_S_u 
+	);
+
+	regX: entity work.reg(proced)
+	generic map(nb_bits => 2*nb_bits)
+	port map (
+		clk => clk,
+		valeur => unsigned(std_logic_vector(to_unsigned(2**(nb_bits-2), nb_bits))&std_logic_vector(to_unsigned(0, nb_bits))),
+		Init => s_init_X,
+		ld => s_ld_X,
+		E => unsigned(s_regX_E),
+		S => s_regX_S_u 
+	);
+
+	regV: entity work.reg(proced)
+	generic map(nb_bits => 2*nb_bits)
+	port map (
+		clk => clk,
+		valeur => to_unsigned(2**(nb_bits-2), 2*nb_bits),
+		Init => s_init_V,
+		ld => s_ld_V,
+		E => unsigned(s_regV_E),
+		S => s_regV_S_u 
+	);
+
+	s_regV_E <= '0'&s_regV_S(2*nb_bits-1 downto 1);
 
 	
+	regZ: entity work.reg(proced)
+	generic map(nb_bits => nb_bits)
+	port map (
+		clk => clk,
+		valeur => to_unsigned(2**(nb_bits-1), nb_bits),
+		Init => s_init_Z,
+		ld => s_ld_Z,
+		E => unsigned(s_regZ_E),
+		S => s_regZ_S_u 
+	);
+	regR: entity work.reg(proced)
+	generic map(nb_bits => nb_bits)
+	port map (
+		clk => clk,
+		valeur => to_unsigned(0, nb_bits),
+		Init => s_init_R,
+		ld => s_ld_R,
+		E => unsigned(s_regR_E),
+		S => s_regR_S_u 
+	);
+	
+	counter: entity work.decompteur(proced)
+	generic map(nb_bits => nb_bits, nb_iter => nb_bits-1)
+	port map (
+		clk => clk,
+		Init => s_init_C,
+		encount => s_encount_C,
+		S => s_count_S,
+		ceqz => s_ceq
+	);
+
+	comparator : entity work.comparator(proced)
+	generic map(nb_bits => 2*nb_bits)
+	port map (
+		A => s_regX_S,
+		B => s_regA_S,
+		Seq => s_comp_eq,
+		Sinf => s_comp_inf,
+		Ssup => s_comp_sup
+	);
+
+	u_mux3_1 : entity work.mux3_1(proced)
+	generic map(
+		nb_bits  => 2*nb_bits)
+	port map(
+		-- ports
+		I0   => unsigned(s_regV_S),
+		I1   => TO_UNSIGNED(0, 2*nb_bits),
+		I2   => TO_UNSIGNED(1, 2*nb_bits),
+		sel  => s_ceq&s_comp_eq,
+		S    => s_muxV_S
+	);
+	u_mux2_1_z : entity work.mux2_1(proced)
+	generic map(
+		nb_bits  => nb_bits)
+	port map(
+		-- ports
+		I0   => s_regZ_S_u,
+		I1   => unsigned(s_regZ_E),
+		sel  => s_comp_sup,
+		S    => s_muxZ_S
+	);
+
+	s_regR_E <= STD_LOGIC_VECTOR(s_muxZ_S);
+	
+	u_mux2_1_v : entity work.mux2_1(proced)
+	generic map(
+		nb_bits  => 2*nb_bits)
+	port map(
+		-- ports
+		I0   => unsigned(s_shift_S),
+		I1   => TO_UNSIGNED(0, 2*nb_bits),
+		sel  => s_comp_eq,
+		S    => s_muxZ_S
+	);
+
+	shifter: entity work.shifter(proced)
+	generic map(
+		nb_bits => nb_bits
+	)
+	port map(
+		A => s_shift_E,
+		dec => s_count_S,
+		S => s_shift_S
+	);
+
+	add_z : entity work.add_sub(proced)
+	generic map(
+		nb_bits  => nb_bits)
+	port map(
+		-- ports
+		A     => s_regZ_S,
+		B     => STD_LOGIC_VECTOR(s_muxV_S),
+		Op    => s_comp_sup,
+		S     => s_regZ_E
+	);
+
+	add_v : entity work.add_sub(proced)
+	generic map(
+		nb_bits  => 2*nb_bits)
+	port map(
+		-- ports
+		A     => s_regV_S,
+		B     => s_regZ_S(nb_bits-2 downto 0)&'0',
+		Op    => s_comp_sup,
+		S     => s_shift_E
+	);
+	add_a : entity work.add_sub(proced)
+	generic map(
+		nb_bits  => 2*nb_bits)
+	port map(
+		-- ports
+		A     => s_regA_S,
+		B     => STD_LOGIC_VECTOR(s_muxV2_S),
+		Op    => '0',
+		S     => s_regA_E
+	);
+
 	s_regA_S <= STD_LOGIC_VECTOR(s_regA_S_u); 
 	s_regX_S <= STD_LOGIC_VECTOR(s_regX_S_u); 
 	s_regV_S <= STD_LOGIC_VECTOR(s_regV_S_u); 
