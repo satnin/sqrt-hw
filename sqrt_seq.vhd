@@ -434,6 +434,8 @@ architecture archi6 of sqrt_seq is
 	signal s_regA_S_u, s_regX_S_u 										: unsigned(2*nb_bits-1 downto 0); 
 	signal s_regZ_S_u, s_regR_S_u, s_regV_S_u 										: unsigned(nb_bits-1 downto 0); 
 	
+	signal s_regZ_S2	: STD_LOGIC_VECTOR(nb_bits-1 downto 0); 
+	
 	signal s_count_S, s_shift_dec : UNSIGNED(nb_bits-1 downto 0); 
 	signal s_comp_inf, s_comp_eq, s_comp_sup : STD_LOGIC; 
 	signal s_muxV_S : UNSIGNED(nb_bits -1 downto 0);
@@ -447,6 +449,7 @@ architecture archi6 of sqrt_seq is
 
 begin
 
+	s_regZ_S2 <= s_regZ_S(nb_bits-2 downto 1)&'0';
 	process(clk, reset)
 	begin
 		if(reset='1') then
@@ -650,8 +653,7 @@ begin
 	port map(
 		-- ports
 		A     => s_regV_S,
-		B(nb_bits-1 downto 1) => s_regZ_S(nb_bits-2 downto 0),
-		B(0)     => '0',
+		B     => s_regZ_S2,
 		Op    => s_comp_sup,
 		S     => s_shift_E
 	);
