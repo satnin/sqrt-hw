@@ -457,61 +457,64 @@ begin
 		else
 			if rising_edge(clk) then
 				state <= f_state;
-				
-				s_init_C <= '0';
-				s_encount_C <= '0';
-
-				s_init_R <= '0';
-				s_ld_R <= '0';
-				
-				s_init_A <= '0';
-				s_init_X <= '0';
-				s_init_V <= '0';
-				s_init_Z <= '0';
-				s_ld_A <= '0';
-				s_ld_X <= '0';
-				s_ld_V <= '0';
-				s_ld_Z <= '0';
-				
-				
-				case state is
-					when IDLE =>
-						if(debut='1') then
-							f_state <= COMPUTE;
-						else
-							f_state <= IDLE;
-						end if;
-						s_init_C <= '1';
-
-						s_init_A <= '1';
-						s_init_X <= '1';
-						s_init_V <= '1';
-						s_init_Z <= '1';
-					when COMPUTE =>
-						if(s_ceq='0') then
-							f_state <= DONE;
-						else
-							f_state <= COMPUTE;
-						end if;
-						s_ld_R <= '1';
-
-						s_ld_A <= '1';
-						s_ld_X <= '1';
-						s_ld_V <= '1';
-						s_ld_Z <= '1';
-
-						s_encount_C <= '1';
-					when DONE =>
-						if(debut='1') then
-							f_state <= DONE;
-						else
-							f_state <= IDLE;
-						end if;
-						
-					when others =>
-				end case;
 			end if;
 		end if;
+	end process ; -- state
+	
+	process(state, debut, s_ceq)
+	begin
+		s_init_C <= '0';
+		s_encount_C <= '0';
+
+		s_init_R <= '0';
+		s_ld_R <= '0';
+		
+		s_init_A <= '0';
+		s_init_X <= '0';
+		s_init_V <= '0';
+		s_init_Z <= '0';
+		s_ld_A <= '0';
+		s_ld_X <= '0';
+		s_ld_V <= '0';
+		s_ld_Z <= '0';
+		
+		
+		case state is
+			when IDLE =>
+				if(debut='1') then
+					f_state <= COMPUTE;
+				else
+					f_state <= IDLE;
+				end if;
+				s_init_C <= '1';
+
+				s_init_A <= '1';
+				s_init_X <= '1';
+				s_init_V <= '1';
+				s_init_Z <= '1';
+			when COMPUTE =>
+				if(s_ceq='0') then
+					f_state <= DONE;
+				else
+					f_state <= COMPUTE;
+				end if;
+				s_ld_R <= '1';
+
+				s_ld_A <= '1';
+				s_ld_X <= '1';
+				s_ld_V <= '1';
+				s_ld_Z <= '1';
+
+				s_encount_C <= '1';
+			when DONE =>
+				if(debut='1') then
+					f_state <= DONE;
+				else
+					f_state <= IDLE;
+				end if;
+				
+			when others =>
+		end case;
 	end process ; -- state
 
 	Resultat <= s_regR_S;
