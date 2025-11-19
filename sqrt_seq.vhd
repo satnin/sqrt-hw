@@ -623,7 +623,7 @@ begin
 		I0   => unsigned(s_shift_S),
 		I1   => TO_UNSIGNED(0, 2*nb_bits),
 		sel  => s_comp_eq,
-		S    => s_muxZ_S
+		S    => s_muxV2_S
 	);
 
 	shifter: entity work.shifter(proced)
