@@ -434,13 +434,14 @@ architecture archi6 of sqrt_seq is
 	signal s_regA_S_u, s_regX_S_u 										: unsigned(2*nb_bits-1 downto 0); 
 	signal s_regZ_S_u, s_regR_S_u, s_regV_S_u 										: unsigned(nb_bits-1 downto 0); 
 	
-	signal s_regZ_S2	: STD_LOGIC_VECTOR(nb_bits-1 downto 0); 
+	signal s_regZ_S2	: STD_LOGIC_VECTOR(nb_bits downto 0); 
+	signal s_regV_S2	: STD_LOGIC_VECTOR(nb_bits downto 0); 
 	
-	signal s_count_S, s_shift_dec : UNSIGNED(nb_bits-1 downto 0); 
+	signal s_count_S : UNSIGNED(nb_bits downto 0); 
 	signal s_comp_inf, s_comp_eq, s_comp_sup : STD_LOGIC; 
 	signal s_muxV_S : UNSIGNED(nb_bits -1 downto 0);
-	signal s_shift_S : STD_LOGIC_VECTOR(2*nb_bits -1 downto 0);
-	signal s_shift_E : STD_LOGIC_VECTOR(nb_bits -1 downto 0);
+	signal s_shift_S : STD_LOGIC_VECTOR(2*nb_bits +1 downto 0);
+	signal s_shift_E : STD_LOGIC_VECTOR(nb_bits downto 0);
 	signal s_muxV2_S : UNSIGNED(2*nb_bits -1 downto 0);
 	signal s_muxZ_S : UNSIGNED(nb_bits -1 downto 0);
 	signal s_Res : STD_LOGIC_VECTOR(nb_bits -1 downto 0);
@@ -449,7 +450,8 @@ architecture archi6 of sqrt_seq is
 
 begin
 
-	s_regZ_S2 <= s_regZ_S(nb_bits-2 downto 0)&'0';
+	s_regZ_S2 <= s_regZ_S&'0';
+	s_regV_S2 <= '0'&s_regV_S;
 	process(clk, reset)
 	begin
 		if(reset='1') then
@@ -577,13 +579,15 @@ begin
 		S => s_regR_S_u 
 	);
 	
+	s_count_S(nb_bits) <= '0';
+
 	counter: entity work.decompteur(proced)
 	generic map(nb_bits => nb_bits, nb_iter => nb_bits-1)
 	port map (
 		clk => clk,
 		Init => s_init_C,
 		encount => s_encount_C,
-		S => s_count_S,
+		S => s_count_S(nb_bits-1 downto 0),
 		ceqz => s_ceq
 	);
 
@@ -627,7 +631,7 @@ begin
 		nb_bits  => 2*nb_bits)
 	port map(
 		-- ports
-		I0   => unsigned(s_shift_S),
+		I0   => unsigned(s_shift_S(2*nb_bits - 1 downto 0)),
 		I1   => TO_UNSIGNED(0, 2*nb_bits),
 		sel  => s_comp_eq,
 		S    => s_muxV2_S
@@ -635,7 +639,7 @@ begin
 
 	shifter: entity work.shifter(proced)
 	generic map(
-		nb_bits => nb_bits
+		nb_bits => nb_bits + 1
 	)
 	port map(
 		A => s_shift_E,
@@ -656,10 +660,10 @@ begin
 
 	add_v : entity work.add_sub(proced)
 	generic map(
-		nb_bits  => nb_bits)
+		nb_bits  => nb_bits+1)
 	port map(
 		-- ports
-		A     => s_regV_S,
+		A     => s_regV_S2,
 		B     => s_regZ_S2,
 		Op    => s_comp_sup,
 		S     => s_shift_E
