@@ -646,7 +646,7 @@ begin
 
 	add_v : entity work.add_sub(proced)
 	generic map(
-		nb_bits  => 2*nb_bits)
+		nb_bits  => nb_bits)
 	port map(
 		-- ports
 		A     => s_regV_S,
