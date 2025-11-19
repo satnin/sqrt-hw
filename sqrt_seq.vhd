@@ -650,7 +650,8 @@ begin
 	port map(
 		-- ports
 		A     => s_regV_S,
-		B     => s_regZ_S(nb_bits-2 downto 0)&'0',
+		B(nb_bits-2 downto 0) => s_regZ_S(nb_bits-2 downto 0),
+		B(0)     => '0',
 		Op    => s_comp_sup,
 		S     => s_shift_E
 	);
