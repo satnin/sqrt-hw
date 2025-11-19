@@ -449,7 +449,7 @@ architecture archi6 of sqrt_seq is
 
 begin
 
-	s_regZ_S2 <= s_regZ_S(nb_bits-2 downto 1)&'0';
+	s_regZ_S2 <= s_regZ_S(nb_bits-2 downto 0)&'0';
 	process(clk, reset)
 	begin
 		if(reset='1') then
