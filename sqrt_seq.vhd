@@ -181,7 +181,7 @@ begin
 						s_count <= 0;
 						reg_X <= std_logic_vector(to_unsigned(2**(nb_bits-2), nb_bits))&std_logic_vector(to_unsigned(0, nb_bits));
 						reg_V <= std_logic_vector(to_unsigned(2**(nb_bits-2), 2*nb_bits));
-						reg_Z <= std_logic_vector(to_unsigned(2**(nb_bits-1), 2*nb_bits));
+						reg_Z <= std_logic_vector(to_unsigned(2**(nb_bits-2), 2*nb_bits-1))&'0';
 						s_idx <= 0;
 					when COMPUTE =>
 						reg_A <= reg_A;
@@ -581,7 +581,7 @@ begin
 	generic map(nb_bits => nb_bits)
 	port map (
 		clk => clk,
-		valeur => to_unsigned(2**(nb_bits-1), nb_bits),
+		valeur => to_unsigned(2**(nb_bits-2), nb_bits-1)&'0',
 		Init => s_init_Z,
 		ld => s_ld_Z,
 		E => unsigned(s_regZ_E),

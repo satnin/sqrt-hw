@@ -21,8 +21,8 @@ architecture inst of top is
 -- signal sig_A : unsigned(2*nb_bits-1 downto 0);
 -- signal sig_S, sig_S2 : unsigned(nb_bits-1 downto 0);
 signal sig_A_v : std_logic_vector(2*nb_bits-1 downto 0);
-signal sig_S_v, sig_S2, sig_S3, sig_S4, sig_S5 : std_logic_vector(nb_bits-1 downto 0);
-signal sig_clk, sig_reset, sig_debut, sig_fin, sig_fin2, sig_fin3, sig_fin4, sig_fin5 : std_logic;
+signal sig_S_v, sig_S2, sig_S3, sig_S4, sig_S5, sig_S6, sig_S7 : std_logic_vector(nb_bits-1 downto 0);
+signal sig_clk, sig_reset, sig_debut, sig_fin, sig_fin2, sig_fin3, sig_fin4, sig_fin5, sig_fin6, sig_fin7 : std_logic;
 
 component nios_system is
   port (
@@ -44,7 +44,7 @@ circuit: entity work.sqrt_seq(archi1)
 		generic map(nb_bits => nb_bits)
 		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S_v, reset => sig_reset, fini => sig_fin);
 
-circuit2: entity work.sqrt_seq(archi6)
+circuit2: entity work.sqrt_seq(archi2)
 		generic map(nb_bits => nb_bits)
 		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S2, reset => sig_reset, fini => sig_fin2);
 	
@@ -59,6 +59,15 @@ circuit4: entity work.sqrt_seq(archi4)
 circuit5: entity work.sqrt_seq(archi5)
 		generic map(nb_bits => nb_bits)
 		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S5, reset => sig_reset, fini => sig_fin5);
+		
+circuit6: entity work.sqrt_seq(archi6)
+		generic map(nb_bits => nb_bits)
+		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S6, reset => sig_reset, fini => sig_fin6);
+		
+	
+circuit7: entity work.sqrt_seq(archi7)
+		generic map(nb_bits => nb_bits)
+		port map(A => sig_A_v, clk => sig_clk, debut => sig_debut, Resultat => sig_S7, reset => sig_reset, fini => sig_fin7);
 		
 	
 NIOS0 : component nios_system
