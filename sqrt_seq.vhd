@@ -424,24 +424,24 @@ begin
 end archi5;
 --
 architecture archi6 of sqrt_seq is 
-	type TState is (IDLE, COMPUTE, DONE);
+	type TState is (IDLE, COMPUTE, FINISHED, DONE);
     signal state       	: TState := IDLE;
     signal f_state       : TState := IDLE;
-	signal s_ceq, s_init_C, s_init_A, s_init_X, s_init_V, s_init_Z, s_init_R : STD_LOGIC; 
+	signal s_ceq, s_end, s_init_C, s_init_A, s_init_X, s_init_V, s_init_Z, s_init_R : STD_LOGIC; 
 	signal s_encount_C, s_ld_A, s_ld_X, s_ld_V, s_ld_Z, s_ld_R : STD_LOGIC; 
 	signal s_regA_S, s_regX_S, s_regA_E, s_regX_E 						: STD_LOGIC_VECTOR(2*nb_bits-1 downto 0); 
 	signal s_regZ_S, s_regR_S, s_regV_S, s_regZ_E, s_regR_E, s_regV_E 	: STD_LOGIC_VECTOR(nb_bits-1 downto 0); 
 	signal s_regA_S_u, s_regX_S_u 										: unsigned(2*nb_bits-1 downto 0); 
 	signal s_regZ_S_u, s_regR_S_u, s_regV_S_u 										: unsigned(nb_bits-1 downto 0); 
 	
-	signal s_regZ_S2	: STD_LOGIC_VECTOR(nb_bits downto 0); 
-	signal s_regV_S2	: STD_LOGIC_VECTOR(nb_bits downto 0); 
+	signal s_regZ_S2	: STD_LOGIC_VECTOR(nb_bits+1 downto 0); 
+	signal s_regV_S2	: STD_LOGIC_VECTOR(nb_bits+1 downto 0); 
 	
-	signal s_count_S : UNSIGNED(nb_bits downto 0); 
+	signal s_count_S : UNSIGNED(nb_bits+1 downto 0); 
 	signal s_comp_inf, s_comp_eq, s_comp_sup : STD_LOGIC; 
 	signal s_muxV_S : UNSIGNED(nb_bits -1 downto 0);
-	signal s_shift_S : STD_LOGIC_VECTOR(2*nb_bits +1 downto 0);
-	signal s_shift_E : STD_LOGIC_VECTOR(nb_bits downto 0);
+	signal s_shift_S : STD_LOGIC_VECTOR(2*nb_bits +3 downto 0);
+	signal s_shift_E : STD_LOGIC_VECTOR(nb_bits+1 downto 0);
 	signal s_muxV2_S : UNSIGNED(2*nb_bits -1 downto 0);
 	signal s_muxZ_S : UNSIGNED(nb_bits -1 downto 0);
 	signal s_Res : STD_LOGIC_VECTOR(nb_bits -1 downto 0);
@@ -450,8 +450,8 @@ architecture archi6 of sqrt_seq is
 
 begin
 
-	s_regZ_S2 <= s_regZ_S&'0';
-	s_regV_S2 <= '0'&s_regV_S;
+	s_regZ_S2 <= '0'&s_regZ_S&'0';
+	s_regV_S2 <= "00"&s_regV_S;
 	process(clk, reset)
 	begin
 		if(reset='1') then
@@ -479,8 +479,10 @@ begin
 		s_ld_X <= '0';
 		s_ld_V <= '0';
 		s_ld_Z <= '0';
+
+		s_end <= '0';
 		
-		
+		fini <= '0';
 		case state is
 			when IDLE =>
 				if(debut='1') then
@@ -496,7 +498,7 @@ begin
 				s_init_Z <= '1';
 			when COMPUTE =>
 				if(s_ceq='1') then
-					f_state <= DONE;
+					f_state <= FINISHED;
 				else
 					f_state <= COMPUTE;
 				end if;
@@ -508,6 +510,18 @@ begin
 				s_ld_Z <= '1';
 
 				s_encount_C <= '1';
+			
+			when FINISHED =>
+				f_state <= DONE;
+				s_ld_R <= '1';
+				s_ld_A <= '1';
+				s_ld_X <= '1';
+				s_ld_V <= '1';
+				s_ld_Z <= '1';
+				s_end <= '1';
+				if to_integer(unsigned(A)) = 0 then
+					s_init_R <= '1';
+				end if;
 			when DONE =>
 				if(debut='1') then
 					f_state <= DONE;
@@ -515,12 +529,17 @@ begin
 					f_state <= IDLE;
 				end if;
 				
+				fini <= '1';
+				s_end <= '1';
+				Resultat <= s_regR_E;
+				
+				
 			when others =>
 				f_state <= IDLE;
 		end case;
 	end process ; -- state
 
-	Resultat <= s_regR_S;
+	
 	regA: entity work.reg(proced)
 	generic map(nb_bits => 2*nb_bits)
 	port map (
@@ -578,8 +597,9 @@ begin
 		E => unsigned(s_regR_E),
 		S => s_regR_S_u 
 	);
+	s_regR_E <= std_logic_vector(s_muxZ_S);
 	
-	s_count_S(nb_bits) <= '0';
+	s_count_S(nb_bits+1 downto nb_bits) <= "00";
 
 	counter: entity work.decompteur(proced)
 	generic map(nb_bits => nb_bits, nb_iter => nb_bits-1)
@@ -609,7 +629,7 @@ begin
 		I0   => unsigned(s_regV_S),
 		I1   => TO_UNSIGNED(0, nb_bits),
 		I2   => TO_UNSIGNED(1, nb_bits),
-		sel(1)  => s_ceq,
+		sel(1)  => s_end,
 		sel(0)  => s_comp_eq,
 		S    => s_muxV_S
 	);
@@ -639,7 +659,7 @@ begin
 
 	shifter: entity work.shifter(proced)
 	generic map(
-		nb_bits => nb_bits + 1
+		nb_bits => nb_bits + 2
 	)
 	port map(
 		A => s_shift_E,
@@ -660,7 +680,7 @@ begin
 
 	add_v : entity work.add_sub(proced)
 	generic map(
-		nb_bits  => nb_bits+1)
+		nb_bits  => nb_bits+2)
 	port map(
 		-- ports
 		A     => s_regV_S2,
@@ -685,3 +705,219 @@ begin
 	s_regZ_S <= STD_LOGIC_VECTOR(s_regZ_S_u); 
 	s_regR_S <= STD_LOGIC_VECTOR(s_regR_S_u);
 end archi6;
+
+architecture archi7 of sqrt_seq is 
+	type TState is (IDLE, COMPUTE, DONE);
+    signal state       	: TState := IDLE;
+    signal f_state       : TState := IDLE;
+	signal s_ceq, s_end, s_init_C, s_init_A, s_init_V, s_init_Z, s_init_R : STD_LOGIC; 
+	signal s_encount_C, s_ld_A, s_ld_V, s_ld_Z, s_ld_R : STD_LOGIC; 
+	signal s_regA_S, s_regA_E 						: STD_LOGIC_VECTOR(2*nb_bits-1 downto 0); 
+	signal s_regZ_S, s_regR_S, s_regV_S, s_regZ_E, s_regR_E, s_regV_E 	: STD_LOGIC_VECTOR(2*nb_bits-1 downto 0); 
+	signal s_regA_S_u 										: unsigned(2*nb_bits-1 downto 0); 
+	signal s_regZ_S_u, s_regR_S_u, s_regV_S_u 										: unsigned(2*nb_bits-1 downto 0); 
+	
+	
+	signal s_count_S : UNSIGNED(nb_bits+1 downto 0); 
+	signal s_comp_inf, s_comp_eq, s_comp_sup : STD_LOGIC; 
+	signal s_muxV2_S : UNSIGNED(2*nb_bits -1 downto 0);
+	signal s_muxZ_S : UNSIGNED(2*nb_bits -1 downto 0);
+	signal s_add_S, s_regV_S_l1, s_orZ_S, s_orA_S : STD_LOGIC_VECTOR(2*nb_bits-1 downto 0);
+
+begin
+
+	process(clk, reset)
+	begin
+		if(reset='1') then
+			state <= IDLE;
+		else
+			if rising_edge(clk) then
+				state <= f_state;
+			end if;
+		end if;
+	end process ; -- state
+	
+	process(state, debut, s_ceq)
+	begin
+		s_init_C <= '0';
+		s_encount_C <= '0';
+		
+		s_init_A <= '0';
+		s_init_V <= '0';
+		s_init_Z <= '0';
+		s_ld_A <= '0';
+		s_ld_V <= '0';
+		s_ld_Z <= '0';
+
+		s_end <= '0';
+		
+		fini <= '0';
+		case state is
+			when IDLE =>
+				if(debut='1') then
+					f_state <= COMPUTE;
+				else
+					f_state <= IDLE;
+				end if;
+				s_init_C <= '1';
+
+				s_init_A <= '1';
+				s_init_V <= '1';
+				s_init_Z <= '1';
+			when COMPUTE =>
+				if(s_ceq='1') then
+					f_state <= DONE;
+				else
+					f_state <= COMPUTE;
+				end if;
+				s_ld_R <= '1';
+
+				s_ld_A <= '1';
+				s_ld_V <= '1';
+				s_ld_Z <= '1';
+
+				s_encount_C <= '1';
+			
+			when DONE =>
+				if(debut='1') then
+					f_state <= DONE;
+				else
+					f_state <= IDLE;
+				end if;
+				
+				fini <= '1';
+				s_end <= '1';
+			when others =>
+				f_state <= IDLE;
+		end case;
+	end process ; -- state
+
+	Resultat <= s_regZ_S(nb_bits-1 downto 0);
+	
+	regA: entity work.reg(proced)
+	generic map(nb_bits => 2*nb_bits)
+	port map (
+		clk => clk,
+		valeur => unsigned(A),
+		Init => s_init_A,
+		ld => s_ld_A,
+		E => unsigned(s_regA_E),
+		S => s_regA_S_u 
+	);
+	
+
+	-- regX: entity work.reg(proced)
+	-- generic map(nb_bits => 2*nb_bits)
+	-- port map (
+	-- 	clk => clk,
+	-- 	valeur => unsigned(std_logic_vector(to_unsigned(2**(nb_bits-2), nb_bits))&std_logic_vector(to_unsigned(0, nb_bits))),
+	-- 	Init => s_init_X,
+	-- 	ld => s_ld_X,
+	-- 	E => unsigned(s_regX_E),
+	-- 	S => s_regX_S_u 
+	-- );
+
+	regV: entity work.reg(proced)
+	generic map(nb_bits => 2*nb_bits)
+	port map (
+		clk => clk,
+		valeur => unsigned(std_logic_vector(to_unsigned(2**(nb_bits-2), nb_bits))&std_logic_vector(to_unsigned(0, nb_bits))),
+		Init => s_init_V,
+		ld => s_ld_V,
+		E => unsigned(s_regV_E),
+		S => s_regV_S_u 
+	);
+
+	s_regV_E <= "00"&s_regV_S(2*nb_bits-1 downto 2);
+
+	
+	regZ: entity work.reg(proced)
+	generic map(nb_bits => 2*nb_bits)
+	port map (
+		clk => clk,
+		valeur => to_unsigned(0, 2*nb_bits),
+		Init => s_init_Z,
+		ld => s_ld_Z,
+		E => unsigned(s_regZ_E),
+		S => s_regZ_S_u 
+	);
+
+	
+	
+	counter: entity work.decompteur(proced)
+	generic map(nb_bits => nb_bits, nb_iter => nb_bits)
+	port map (
+		clk => clk,
+		Init => s_init_C,
+		encount => s_encount_C,
+		ceqz => s_ceq
+	);
+
+	comparator : entity work.comparator(proced)
+	generic map(nb_bits => 2*nb_bits)
+	port map (
+		B => s_regA_S,
+		A => s_orA_S,
+		Seq => s_comp_eq,
+		Sinf => s_comp_inf,
+		Ssup => s_comp_sup
+	);
+
+	s_regV_S_l1 <= s_regV_S(2*nb_bits-2 downto 0)&'0';
+	u_mux2_1_z : entity work.mux2_1(proced)
+	generic map(
+		nb_bits  => 2*nb_bits)
+	port map(
+		-- ports
+		I0   => unsigned(s_regV_S_l1),
+		I1   => to_unsigned(0, 2*nb_bits),
+		sel  => s_comp_inf,
+		S    => s_muxZ_S
+	);
+
+	or_op_z : entity work.or_op(proced)
+	generic map(nb_bits => 2*nb_bits)
+	port map (
+		A => s_regZ_S,
+		B => std_logic_vector(s_muxZ_S),
+		S => s_orZ_S
+	);
+	s_regZ_E <= '0'&s_orZ_S(2*nb_bits-1 downto 1);
+
+	or_op_a : entity work.or_op(proced)
+	generic map(nb_bits => 2*nb_bits)
+	port map (
+		A => s_regZ_S,
+		B => s_regV_S,
+		S => s_orA_S
+	);
+	
+	u_mux2_1_v : entity work.mux2_1(proced)
+	generic map(
+		nb_bits  => 2*nb_bits)
+	port map(
+		-- ports
+		I0   => unsigned(s_add_S),
+		I1   => s_regA_S_u,
+		sel  => s_comp_inf,
+		S    => s_muxV2_S
+	);
+
+	s_regA_E <= STD_LOGIC_VECTOR(s_muxV2_S);
+
+	add : entity work.add_sub(proced)
+	generic map(
+		nb_bits  => 2*nb_bits)
+	port map(
+		-- ports
+		A     => s_regA_S,
+		B     => s_orA_S,
+		Op   => '1',
+		S => s_add_S
+	);
+	
+	s_regA_S <= STD_LOGIC_VECTOR(s_regA_S_u); 
+	s_regV_S <= STD_LOGIC_VECTOR(s_regV_S_u); 
+	s_regZ_S <= STD_LOGIC_VECTOR(s_regZ_S_u); 
+	s_regR_S <= STD_LOGIC_VECTOR(s_regR_S_u);
+end archi7;

@@ -1,0 +1,22 @@
+ library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity or_op is
+generic(nb_bits : natural :=32);
+port(	A,B : in std_logic_vector(nb_bits-1 downto 0);
+		S : out std_logic_vector(nb_bits-1 downto 0)
+	);
+end or_op;
+
+architecture proced of or_op is
+	
+begin
+
+	gen_or : for i in 0 to (nb_bits-1) generate
+		S(i) <= A(i) or B(i);
+	end generate;
+
+
+
+end proced;

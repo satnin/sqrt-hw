@@ -15,7 +15,8 @@ architecture proced of shifter is
 begin
 	
 	gen_shifters : for i in 0 to (2*nb_bits-1) generate
-		S(i) <= '0' when i < dec or i > (nb_bits+to_integer(dec) - 1)
+		S(i) <= '0' when i < dec
+			else A(nb_bits-1) when i > (nb_bits+to_integer(dec) - 1)
 			else A(i-to_integer(dec));
 	end generate;
 
