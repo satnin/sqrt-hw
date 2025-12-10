@@ -1,0 +1,706 @@
+Analysis & Synthesis report for top
+Wed Dec 10 14:20:57 2025
+Quartus II 32-bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. State Machine - |sqrt_seq|state
+  9. Registers Removed During Synthesis
+ 10. Removed Registers Triggering Further Register Optimizations
+ 11. General Register Statistics
+ 12. Inverted Register Statistics
+ 13. Parameter Settings for User Entity Instance: Top-level Entity: |sqrt_seq
+ 14. Parameter Settings for User Entity Instance: reg:regA
+ 15. Parameter Settings for User Entity Instance: reg:regV
+ 16. Parameter Settings for User Entity Instance: reg:regZ
+ 17. Parameter Settings for User Entity Instance: decompteur:counter
+ 18. Parameter Settings for User Entity Instance: comparator:comparator
+ 19. Parameter Settings for User Entity Instance: mux2_1:u_mux2_1_z
+ 20. Parameter Settings for User Entity Instance: or_op:or_op_z
+ 21. Parameter Settings for User Entity Instance: or_op:or_op_a
+ 22. Parameter Settings for User Entity Instance: mux2_1:u_mux2_1_v
+ 23. Parameter Settings for User Entity Instance: add_sub:add
+ 24. Port Connectivity Checks: "add_sub:add"
+ 25. Port Connectivity Checks: "or_op:or_op_z"
+ 26. Port Connectivity Checks: "mux2_1:u_mux2_1_z"
+ 27. Port Connectivity Checks: "comparator:comparator"
+ 28. Port Connectivity Checks: "decompteur:counter"
+ 29. Port Connectivity Checks: "reg:regZ"
+ 30. Port Connectivity Checks: "reg:regV"
+ 31. Elapsed Time Per Partition
+ 32. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++--------------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                         ;
++------------------------------------+-------------------------------------------------+
+; Analysis & Synthesis Status        ; Successful - Wed Dec 10 14:20:57 2025           ;
+; Quartus II 32-bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
+; Revision Name                      ; top                                             ;
+; Top-level Entity Name              ; sqrt_seq                                        ;
+; Family                             ; Cyclone II                                      ;
+; Total logic elements               ; 567                                             ;
+;     Total combinational functions  ; 505                                             ;
+;     Dedicated logic registers      ; 194                                             ;
+; Total registers                    ; 194                                             ;
+; Total pins                         ; 164                                             ;
+; Total virtual pins                 ; 0                                               ;
+; Total memory bits                  ; 0                                               ;
+; Embedded Multiplier 9-bit elements ; 0                                               ;
+; Total PLLs                         ; 0                                               ;
++------------------------------------+-------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                        ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                     ; Setting            ; Default Value      ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                     ; EP2C20F484C7       ;                    ;
+; Top-level entity name                                                      ; sqrt_seq           ; top                ;
+; Family name                                                                ; Cyclone II         ; Cyclone IV GX      ;
+; Use smart compilation                                                      ; Off                ; Off                ;
+; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On                 ; On                 ;
+; Enable compact report table                                                ; Off                ; Off                ;
+; Restructure Multiplexers                                                   ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                                        ; Off                ; Off                ;
+; Preserve fewer node names                                                  ; On                 ; On                 ;
+; Disable OpenCore Plus hardware evaluation                                  ; Off                ; Off                ;
+; Verilog Version                                                            ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                               ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                                   ; Auto               ; Auto               ;
+; Safe State Machine                                                         ; Off                ; Off                ;
+; Extract Verilog State Machines                                             ; On                 ; On                 ;
+; Extract VHDL State Machines                                                ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                          ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                                 ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                             ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                                    ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                                  ; On                 ; On                 ;
+; Parallel Synthesis                                                         ; On                 ; On                 ;
+; DSP Block Balancing                                                        ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                                         ; On                 ; On                 ;
+; Power-Up Don't Care                                                        ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                               ; Off                ; Off                ;
+; Remove Duplicate Registers                                                 ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                       ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                     ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                      ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                  ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                       ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                        ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                             ; Off                ; Off                ;
+; Optimization Technique                                                     ; Balanced           ; Balanced           ;
+; Carry Chain Length                                                         ; 70                 ; 70                 ;
+; Auto Carry Chains                                                          ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                       ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                      ; Off                ; Off                ;
+; Auto ROM Replacement                                                       ; On                 ; On                 ;
+; Auto RAM Replacement                                                       ; On                 ; On                 ;
+; Auto Shift Register Replacement                                            ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                            ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                              ; On                 ; On                 ;
+; Strict RAM Replacement                                                     ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                          ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                     ; Off                ; Off                ;
+; Auto RAM to Logic Cell Conversion                                          ; Off                ; Off                ;
+; Auto Resource Sharing                                                      ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                                         ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                                         ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                              ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing                        ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                          ; Off                ; Off                ;
+; Timing-Driven Synthesis                                                    ; Off                ; Off                ;
+; Report Parameter Settings                                                  ; On                 ; On                 ;
+; Report Source Assignments                                                  ; On                 ; On                 ;
+; Report Connectivity Checks                                                 ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                         ; Off                ; Off                ;
+; Synchronization Register Chain Length                                      ; 2                  ; 2                  ;
+; PowerPlay Power Optimization                                               ; Normal compilation ; Normal compilation ;
+; HDL message level                                                          ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                            ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                   ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report                         ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report                  ; 100                ; 100                ;
+; Clock MUX Protection                                                       ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                                ; Off                ; Off                ;
+; Block Design Naming                                                        ; Auto               ; Auto               ;
+; SDC constraint protection                                                  ; Off                ; Off                ;
+; Synthesis Effort                                                           ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal               ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                                       ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                                         ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                                ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                                     ; On                 ; On                 ;
+; Synthesis Seed                                                             ; 1                  ; 1                  ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+
+
+Parallel compilation was disabled, but you have multiple processors available. Enable parallel compilation to reduce compilation time.
++-------------------------------------+
+; Parallel Compilation                ;
++----------------------------+--------+
+; Processors                 ; Number ;
++----------------------------+--------+
+; Number detected on machine ; 12     ;
+; Maximum allowed            ; 1      ;
++----------------------------+--------+
+
+
++------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                 ;
++----------------------------------+-----------------+-----------------+---------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path          ; Library ;
++----------------------------------+-----------------+-----------------+---------------------------------------+---------+
+; reg.vhd                          ; yes             ; User VHDL File  ; C:/ET5/FPGA/TP/sqrt-hw/reg.vhd        ;         ;
+; or_op.vhd                        ; yes             ; User VHDL File  ; C:/ET5/FPGA/TP/sqrt-hw/or_op.vhd      ;         ;
+; mux2_1.vhd                       ; yes             ; User VHDL File  ; C:/ET5/FPGA/TP/sqrt-hw/mux2_1.vhd     ;         ;
+; decompteur.vhd                   ; yes             ; User VHDL File  ; C:/ET5/FPGA/TP/sqrt-hw/decompteur.vhd ;         ;
+; comparator.vhd                   ; yes             ; User VHDL File  ; C:/ET5/FPGA/TP/sqrt-hw/comparator.vhd ;         ;
+; add_sub.vhd                      ; yes             ; User VHDL File  ; C:/ET5/FPGA/TP/sqrt-hw/add_sub.vhd    ;         ;
+; sqrt_seq.vhd                     ; yes             ; User VHDL File  ; C:/ET5/FPGA/TP/sqrt-hw/sqrt_seq.vhd   ;         ;
++----------------------------------+-----------------+-----------------+---------------------------------------+---------+
+
+
++----------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary              ;
++---------------------------------------------+------------+
+; Resource                                    ; Usage      ;
++---------------------------------------------+------------+
+; Estimated Total logic elements              ; 567        ;
+;                                             ;            ;
+; Total combinational functions               ; 505        ;
+; Logic element usage by number of LUT inputs ;            ;
+;     -- 4 input functions                    ; 151        ;
+;     -- 3 input functions                    ; 220        ;
+;     -- <=2 input functions                  ; 134        ;
+;                                             ;            ;
+; Logic elements by mode                      ;            ;
+;     -- normal mode                          ; 349        ;
+;     -- arithmetic mode                      ; 156        ;
+;                                             ;            ;
+; Total registers                             ; 194        ;
+;     -- Dedicated logic registers            ; 194        ;
+;     -- I/O registers                        ; 0          ;
+;                                             ;            ;
+; I/O pins                                    ; 164        ;
+; Embedded Multiplier 9-bit elements          ; 0          ;
+; Maximum fan-out node                        ; state.IDLE ;
+; Maximum fan-out                             ; 320        ;
+; Total fan-out                               ; 2333       ;
+; Average fan-out                             ; 2.70       ;
++---------------------------------------------+------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                     ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------+--------------+
+; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name             ; Library Name ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------+--------------+
+; |sqrt_seq                  ; 505 (3)           ; 194 (3)      ; 0           ; 0            ; 0       ; 0         ; 164  ; 0            ; |sqrt_seq                       ; work         ;
+;    |add_sub:add|           ; 64 (64)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |sqrt_seq|add_sub:add           ; work         ;
+;    |comparator:comparator| ; 105 (105)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |sqrt_seq|comparator:comparator ; work         ;
+;    |decompteur:counter|    ; 44 (44)           ; 32 (32)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |sqrt_seq|decompteur:counter    ; work         ;
+;    |mux2_1:u_mux2_1_z|     ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |sqrt_seq|mux2_1:u_mux2_1_z     ; work         ;
+;    |or_op:or_op_a|         ; 32 (32)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |sqrt_seq|or_op:or_op_a         ; work         ;
+;    |or_op:or_op_z|         ; 62 (62)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |sqrt_seq|or_op:or_op_z         ; work         ;
+;    |reg:regA|              ; 193 (193)         ; 64 (64)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |sqrt_seq|reg:regA              ; work         ;
+;    |reg:regV|              ; 1 (1)             ; 32 (32)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |sqrt_seq|reg:regV              ; work         ;
+;    |reg:regZ|              ; 0 (0)             ; 63 (63)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |sqrt_seq|reg:regZ              ; work         ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
+Encoding Type:  One-Hot
++---------------------------------------------------------+
+; State Machine - |sqrt_seq|state                         ;
++---------------+------------+---------------+------------+
+; Name          ; state.DONE ; state.COMPUTE ; state.IDLE ;
++---------------+------------+---------------+------------+
+; state.IDLE    ; 0          ; 0             ; 0          ;
+; state.COMPUTE ; 0          ; 1             ; 1          ;
+; state.DONE    ; 1          ; 0             ; 1          ;
++---------------+------------+---------------+------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                                                 ;
++-----------------------------------------------------------------------------------------------------------+----------------------------------------+
+; Register name                                                                                             ; Reason for Removal                     ;
++-----------------------------------------------------------------------------------------------------------+----------------------------------------+
+; reg:regZ|Sint[63]                                                                                         ; Stuck at GND due to stuck port data_in ;
+; reg:regV|Sint[1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63] ; Stuck at GND due to stuck port data_in ;
+; Total Number of Removed Registers = 33                                                                    ;                                        ;
++-----------------------------------------------------------------------------------------------------------+----------------------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                 ;
++-------------------+---------------------------+-----------------------------------------------------------------------------+
+; Register name     ; Reason for Removal        ; Registers Removed due to This Register                                      ;
++-------------------+---------------------------+-----------------------------------------------------------------------------+
+; reg:regV|Sint[63] ; Stuck at GND              ; reg:regV|Sint[61], reg:regV|Sint[59], reg:regV|Sint[57], reg:regV|Sint[55], ;
+;                   ; due to stuck port data_in ; reg:regV|Sint[53], reg:regV|Sint[51], reg:regV|Sint[49], reg:regV|Sint[47], ;
+;                   ;                           ; reg:regV|Sint[45], reg:regV|Sint[43], reg:regV|Sint[41], reg:regV|Sint[39], ;
+;                   ;                           ; reg:regV|Sint[37], reg:regV|Sint[35], reg:regV|Sint[33], reg:regV|Sint[31], ;
+;                   ;                           ; reg:regV|Sint[29], reg:regV|Sint[27], reg:regV|Sint[25], reg:regV|Sint[23], ;
+;                   ;                           ; reg:regV|Sint[21], reg:regV|Sint[19], reg:regV|Sint[17], reg:regV|Sint[15], ;
+;                   ;                           ; reg:regV|Sint[13], reg:regV|Sint[11], reg:regV|Sint[9], reg:regV|Sint[7],   ;
+;                   ;                           ; reg:regV|Sint[5], reg:regV|Sint[3], reg:regV|Sint[1]                        ;
++-------------------+---------------------------+-----------------------------------------------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 194   ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 194   ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 191   ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++--------------------------------------------------+
+; Inverted Register Statistics                     ;
++----------------------------------------+---------+
+; Inverted Register                      ; Fan out ;
++----------------------------------------+---------+
+; decompteur:counter|Sint[1]             ; 2       ;
+; decompteur:counter|Sint[2]             ; 2       ;
+; decompteur:counter|Sint[3]             ; 2       ;
+; decompteur:counter|Sint[4]             ; 2       ;
+; reg:regV|Sint[62]                      ; 3       ;
+; decompteur:counter|Sint[0]             ; 3       ;
+; Total number of inverted registers = 6 ;         ;
++----------------------------------------+---------+
+
+
++--------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: Top-level Entity: |sqrt_seq ;
++----------------+-------+-------------------------------------------------+
+; Parameter Name ; Value ; Type                                            ;
++----------------+-------+-------------------------------------------------+
+; nb_bits        ; 32    ; Signed Integer                                  ;
++----------------+-------+-------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------+
+; Parameter Settings for User Entity Instance: reg:regA ;
++----------------+-------+------------------------------+
+; Parameter Name ; Value ; Type                         ;
++----------------+-------+------------------------------+
+; nb_bits        ; 64    ; Signed Integer               ;
++----------------+-------+------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------+
+; Parameter Settings for User Entity Instance: reg:regV ;
++----------------+-------+------------------------------+
+; Parameter Name ; Value ; Type                         ;
++----------------+-------+------------------------------+
+; nb_bits        ; 64    ; Signed Integer               ;
++----------------+-------+------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------+
+; Parameter Settings for User Entity Instance: reg:regZ ;
++----------------+-------+------------------------------+
+; Parameter Name ; Value ; Type                         ;
++----------------+-------+------------------------------+
+; nb_bits        ; 64    ; Signed Integer               ;
++----------------+-------+------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: decompteur:counter ;
++----------------+-------+----------------------------------------+
+; Parameter Name ; Value ; Type                                   ;
++----------------+-------+----------------------------------------+
+; nb_bits        ; 32    ; Signed Integer                         ;
+; nb_iter        ; 32    ; Signed Integer                         ;
++----------------+-------+----------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: comparator:comparator ;
++----------------+-------+-------------------------------------------+
+; Parameter Name ; Value ; Type                                      ;
++----------------+-------+-------------------------------------------+
+; nb_bits        ; 64    ; Signed Integer                            ;
++----------------+-------+-------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: mux2_1:u_mux2_1_z ;
++----------------+-------+---------------------------------------+
+; Parameter Name ; Value ; Type                                  ;
++----------------+-------+---------------------------------------+
+; nb_bits        ; 64    ; Signed Integer                        ;
++----------------+-------+---------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: or_op:or_op_z ;
++----------------+-------+-----------------------------------+
+; Parameter Name ; Value ; Type                              ;
++----------------+-------+-----------------------------------+
+; nb_bits        ; 64    ; Signed Integer                    ;
++----------------+-------+-----------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: or_op:or_op_a ;
++----------------+-------+-----------------------------------+
+; Parameter Name ; Value ; Type                              ;
++----------------+-------+-----------------------------------+
+; nb_bits        ; 64    ; Signed Integer                    ;
++----------------+-------+-----------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: mux2_1:u_mux2_1_v ;
++----------------+-------+---------------------------------------+
+; Parameter Name ; Value ; Type                                  ;
++----------------+-------+---------------------------------------+
+; nb_bits        ; 64    ; Signed Integer                        ;
++----------------+-------+---------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------+
+; Parameter Settings for User Entity Instance: add_sub:add ;
++----------------+-------+---------------------------------+
+; Parameter Name ; Value ; Type                            ;
++----------------+-------+---------------------------------+
+; nb_bits        ; 64    ; Signed Integer                  ;
++----------------+-------+---------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "add_sub:add"                                                                        ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; op   ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; cout ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "or_op:or_op_z"                                                                      ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; s[0] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------+
+; Port Connectivity Checks: "mux2_1:u_mux2_1_z" ;
++-------+-------+----------+--------------------+
+; Port  ; Type  ; Severity ; Details            ;
++-------+-------+----------+--------------------+
+; i0[0] ; Input ; Info     ; Stuck at GND       ;
+; i1    ; Input ; Info     ; Stuck at GND       ;
++-------+-------+----------+--------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "comparator:comparator"                                                              ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; seq  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; ssup ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "decompteur:counter"                                                                 ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; s    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++------------------------------------------+
+; Port Connectivity Checks: "reg:regZ"     ;
++--------+-------+----------+--------------+
+; Port   ; Type  ; Severity ; Details      ;
++--------+-------+----------+--------------+
+; valeur ; Input ; Info     ; Stuck at GND ;
+; e[63]  ; Input ; Info     ; Stuck at GND ;
++--------+-------+----------+--------------+
+
+
++-------------------------------------------------+
+; Port Connectivity Checks: "reg:regV"            ;
++---------------+-------+----------+--------------+
+; Port          ; Type  ; Severity ; Details      ;
++---------------+-------+----------+--------------+
+; valeur[61..0] ; Input ; Info     ; Stuck at GND ;
+; valeur[63]    ; Input ; Info     ; Stuck at GND ;
+; valeur[62]    ; Input ; Info     ; Stuck at VCC ;
+; e[63..62]     ; Input ; Info     ; Stuck at GND ;
++---------------+-------+----------+--------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:00     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 32-bit Analysis & Synthesis
+    Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+    Info: Processing started: Wed Dec 10 14:20:49 2025
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off top -c top
+Warning (20028): Parallel compilation is not licensed and has been disabled
+Info (12021): Found 2 design units, including 1 entities, in source file sqrt_transformer_reg.vhd
+    Info (12022): Found design unit 1: sqrt_transformer_reg-arch
+    Info (12023): Found entity 1: sqrt_transformer_reg
+Info (12021): Found 2 design units, including 1 entities, in source file sqrt_transformer.vhd
+    Info (12022): Found design unit 1: sqrt_transformer-arch
+    Info (12023): Found entity 1: sqrt_transformer
+Info (12021): Found 2 design units, including 1 entities, in source file shifter.vhd
+    Info (12022): Found design unit 1: shifter-proced
+    Info (12023): Found entity 1: shifter
+Info (12021): Found 2 design units, including 1 entities, in source file reg.vhd
+    Info (12022): Found design unit 1: reg-proced
+    Info (12023): Found entity 1: reg
+Info (12021): Found 2 design units, including 1 entities, in source file or_op.vhd
+    Info (12022): Found design unit 1: or_op-proced
+    Info (12023): Found entity 1: or_op
+Info (12021): Found 2 design units, including 1 entities, in source file mux4_1.vhd
+    Info (12022): Found design unit 1: mux4_1-proced
+    Info (12023): Found entity 1: mux4_1
+Info (12021): Found 2 design units, including 1 entities, in source file mux3_1.vhd
+    Info (12022): Found design unit 1: mux3_1-proced
+    Info (12023): Found entity 1: mux3_1
+Info (12021): Found 2 design units, including 1 entities, in source file mux2_1.vhd
+    Info (12022): Found design unit 1: mux2_1-proced
+    Info (12023): Found entity 1: mux2_1
+Info (12021): Found 2 design units, including 1 entities, in source file decompteur.vhd
+    Info (12022): Found design unit 1: decompteur-proced
+    Info (12023): Found entity 1: decompteur
+Info (12021): Found 2 design units, including 1 entities, in source file comparator.vhd
+    Info (12022): Found design unit 1: comparator-proced
+    Info (12023): Found entity 1: comparator
+Info (12021): Found 2 design units, including 1 entities, in source file add_sub.vhd
+    Info (12022): Found design unit 1: add_sub-proced
+    Info (12023): Found entity 1: add_sub
+Info (12021): Found 2 design units, including 1 entities, in source file sqrt_seq.vhd
+    Info (12022): Found design unit 1: sqrt_seq-archi7
+    Info (12023): Found entity 1: sqrt_seq
+Info (12127): Elaborating entity "sqrt_seq" for the top level hierarchy
+Warning (10541): VHDL Signal Declaration warning at sqrt_seq.vhd(15): used implicit default value for signal "count" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10036): Verilog HDL or VHDL warning at sqrt_seq.vhd(713): object "s_end" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at sqrt_seq.vhd(714): object "s_ld_R" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at sqrt_seq.vhd(716): object "s_regR_S" assigned a value but never read
+Warning (10541): VHDL Signal Declaration warning at sqrt_seq.vhd(718): used implicit default value for signal "s_regR_S_u" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations.
+Warning (10036): Verilog HDL or VHDL warning at sqrt_seq.vhd(722): object "s_comp_eq" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at sqrt_seq.vhd(722): object "s_comp_sup" assigned a value but never read
+Info (12129): Elaborating entity "reg" using architecture "A:proced" for hierarchy "reg:regA"
+Info (12129): Elaborating entity "decompteur" using architecture "A:proced" for hierarchy "decompteur:counter"
+Warning (10492): VHDL Process Statement warning at decompteur.vhd(23): signal "encount" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Info (12129): Elaborating entity "comparator" using architecture "A:proced" for hierarchy "comparator:comparator"
+Info (12129): Elaborating entity "mux2_1" using architecture "A:proced" for hierarchy "mux2_1:u_mux2_1_z"
+Info (12129): Elaborating entity "or_op" using architecture "A:proced" for hierarchy "or_op:or_op_z"
+Info (12129): Elaborating entity "add_sub" using architecture "A:proced" for hierarchy "add_sub:add"
+Info (13000): Registers with preset signals will power-up high
+Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
+Warning (13004): Presettable and clearable registers converted to equivalent circuits with latches. Registers power-up to an undefined state, and DEVCLRn places the registers in an undefined state.
+    Warning (13310): Register "reg:regA|Sint[63]" is converted into an equivalent circuit using register "reg:regA|Sint[63]~_emulated" and latch "reg:regA|Sint[63]~1"
+    Warning (13310): Register "reg:regA|Sint[62]" is converted into an equivalent circuit using register "reg:regA|Sint[62]~_emulated" and latch "reg:regA|Sint[62]~5"
+    Warning (13310): Register "reg:regA|Sint[61]" is converted into an equivalent circuit using register "reg:regA|Sint[61]~_emulated" and latch "reg:regA|Sint[61]~9"
+    Warning (13310): Register "reg:regA|Sint[60]" is converted into an equivalent circuit using register "reg:regA|Sint[60]~_emulated" and latch "reg:regA|Sint[60]~13"
+    Warning (13310): Register "reg:regA|Sint[59]" is converted into an equivalent circuit using register "reg:regA|Sint[59]~_emulated" and latch "reg:regA|Sint[59]~17"
+    Warning (13310): Register "reg:regA|Sint[58]" is converted into an equivalent circuit using register "reg:regA|Sint[58]~_emulated" and latch "reg:regA|Sint[58]~21"
+    Warning (13310): Register "reg:regA|Sint[57]" is converted into an equivalent circuit using register "reg:regA|Sint[57]~_emulated" and latch "reg:regA|Sint[57]~25"
+    Warning (13310): Register "reg:regA|Sint[56]" is converted into an equivalent circuit using register "reg:regA|Sint[56]~_emulated" and latch "reg:regA|Sint[56]~29"
+    Warning (13310): Register "reg:regA|Sint[55]" is converted into an equivalent circuit using register "reg:regA|Sint[55]~_emulated" and latch "reg:regA|Sint[55]~33"
+    Warning (13310): Register "reg:regA|Sint[54]" is converted into an equivalent circuit using register "reg:regA|Sint[54]~_emulated" and latch "reg:regA|Sint[54]~37"
+    Warning (13310): Register "reg:regA|Sint[53]" is converted into an equivalent circuit using register "reg:regA|Sint[53]~_emulated" and latch "reg:regA|Sint[53]~41"
+    Warning (13310): Register "reg:regA|Sint[52]" is converted into an equivalent circuit using register "reg:regA|Sint[52]~_emulated" and latch "reg:regA|Sint[52]~45"
+    Warning (13310): Register "reg:regA|Sint[51]" is converted into an equivalent circuit using register "reg:regA|Sint[51]~_emulated" and latch "reg:regA|Sint[51]~49"
+    Warning (13310): Register "reg:regA|Sint[50]" is converted into an equivalent circuit using register "reg:regA|Sint[50]~_emulated" and latch "reg:regA|Sint[50]~53"
+    Warning (13310): Register "reg:regA|Sint[49]" is converted into an equivalent circuit using register "reg:regA|Sint[49]~_emulated" and latch "reg:regA|Sint[49]~57"
+    Warning (13310): Register "reg:regA|Sint[48]" is converted into an equivalent circuit using register "reg:regA|Sint[48]~_emulated" and latch "reg:regA|Sint[48]~61"
+    Warning (13310): Register "reg:regA|Sint[47]" is converted into an equivalent circuit using register "reg:regA|Sint[47]~_emulated" and latch "reg:regA|Sint[47]~65"
+    Warning (13310): Register "reg:regA|Sint[46]" is converted into an equivalent circuit using register "reg:regA|Sint[46]~_emulated" and latch "reg:regA|Sint[46]~69"
+    Warning (13310): Register "reg:regA|Sint[45]" is converted into an equivalent circuit using register "reg:regA|Sint[45]~_emulated" and latch "reg:regA|Sint[45]~73"
+    Warning (13310): Register "reg:regA|Sint[44]" is converted into an equivalent circuit using register "reg:regA|Sint[44]~_emulated" and latch "reg:regA|Sint[44]~77"
+    Warning (13310): Register "reg:regA|Sint[43]" is converted into an equivalent circuit using register "reg:regA|Sint[43]~_emulated" and latch "reg:regA|Sint[43]~81"
+    Warning (13310): Register "reg:regA|Sint[42]" is converted into an equivalent circuit using register "reg:regA|Sint[42]~_emulated" and latch "reg:regA|Sint[42]~85"
+    Warning (13310): Register "reg:regA|Sint[41]" is converted into an equivalent circuit using register "reg:regA|Sint[41]~_emulated" and latch "reg:regA|Sint[41]~89"
+    Warning (13310): Register "reg:regA|Sint[40]" is converted into an equivalent circuit using register "reg:regA|Sint[40]~_emulated" and latch "reg:regA|Sint[40]~93"
+    Warning (13310): Register "reg:regA|Sint[39]" is converted into an equivalent circuit using register "reg:regA|Sint[39]~_emulated" and latch "reg:regA|Sint[39]~97"
+    Warning (13310): Register "reg:regA|Sint[38]" is converted into an equivalent circuit using register "reg:regA|Sint[38]~_emulated" and latch "reg:regA|Sint[38]~101"
+    Warning (13310): Register "reg:regA|Sint[37]" is converted into an equivalent circuit using register "reg:regA|Sint[37]~_emulated" and latch "reg:regA|Sint[37]~105"
+    Warning (13310): Register "reg:regA|Sint[36]" is converted into an equivalent circuit using register "reg:regA|Sint[36]~_emulated" and latch "reg:regA|Sint[36]~109"
+    Warning (13310): Register "reg:regA|Sint[35]" is converted into an equivalent circuit using register "reg:regA|Sint[35]~_emulated" and latch "reg:regA|Sint[35]~113"
+    Warning (13310): Register "reg:regA|Sint[34]" is converted into an equivalent circuit using register "reg:regA|Sint[34]~_emulated" and latch "reg:regA|Sint[34]~117"
+    Warning (13310): Register "reg:regA|Sint[33]" is converted into an equivalent circuit using register "reg:regA|Sint[33]~_emulated" and latch "reg:regA|Sint[33]~121"
+    Warning (13310): Register "reg:regA|Sint[32]" is converted into an equivalent circuit using register "reg:regA|Sint[32]~_emulated" and latch "reg:regA|Sint[32]~125"
+    Warning (13310): Register "reg:regA|Sint[31]" is converted into an equivalent circuit using register "reg:regA|Sint[31]~_emulated" and latch "reg:regA|Sint[31]~129"
+    Warning (13310): Register "reg:regA|Sint[30]" is converted into an equivalent circuit using register "reg:regA|Sint[30]~_emulated" and latch "reg:regA|Sint[30]~133"
+    Warning (13310): Register "reg:regA|Sint[29]" is converted into an equivalent circuit using register "reg:regA|Sint[29]~_emulated" and latch "reg:regA|Sint[29]~137"
+    Warning (13310): Register "reg:regA|Sint[28]" is converted into an equivalent circuit using register "reg:regA|Sint[28]~_emulated" and latch "reg:regA|Sint[28]~141"
+    Warning (13310): Register "reg:regA|Sint[27]" is converted into an equivalent circuit using register "reg:regA|Sint[27]~_emulated" and latch "reg:regA|Sint[27]~145"
+    Warning (13310): Register "reg:regA|Sint[26]" is converted into an equivalent circuit using register "reg:regA|Sint[26]~_emulated" and latch "reg:regA|Sint[26]~149"
+    Warning (13310): Register "reg:regA|Sint[25]" is converted into an equivalent circuit using register "reg:regA|Sint[25]~_emulated" and latch "reg:regA|Sint[25]~153"
+    Warning (13310): Register "reg:regA|Sint[24]" is converted into an equivalent circuit using register "reg:regA|Sint[24]~_emulated" and latch "reg:regA|Sint[24]~157"
+    Warning (13310): Register "reg:regA|Sint[23]" is converted into an equivalent circuit using register "reg:regA|Sint[23]~_emulated" and latch "reg:regA|Sint[23]~161"
+    Warning (13310): Register "reg:regA|Sint[22]" is converted into an equivalent circuit using register "reg:regA|Sint[22]~_emulated" and latch "reg:regA|Sint[22]~165"
+    Warning (13310): Register "reg:regA|Sint[21]" is converted into an equivalent circuit using register "reg:regA|Sint[21]~_emulated" and latch "reg:regA|Sint[21]~169"
+    Warning (13310): Register "reg:regA|Sint[20]" is converted into an equivalent circuit using register "reg:regA|Sint[20]~_emulated" and latch "reg:regA|Sint[20]~173"
+    Warning (13310): Register "reg:regA|Sint[19]" is converted into an equivalent circuit using register "reg:regA|Sint[19]~_emulated" and latch "reg:regA|Sint[19]~177"
+    Warning (13310): Register "reg:regA|Sint[18]" is converted into an equivalent circuit using register "reg:regA|Sint[18]~_emulated" and latch "reg:regA|Sint[18]~181"
+    Warning (13310): Register "reg:regA|Sint[17]" is converted into an equivalent circuit using register "reg:regA|Sint[17]~_emulated" and latch "reg:regA|Sint[17]~185"
+    Warning (13310): Register "reg:regA|Sint[16]" is converted into an equivalent circuit using register "reg:regA|Sint[16]~_emulated" and latch "reg:regA|Sint[16]~189"
+    Warning (13310): Register "reg:regA|Sint[15]" is converted into an equivalent circuit using register "reg:regA|Sint[15]~_emulated" and latch "reg:regA|Sint[15]~193"
+    Warning (13310): Register "reg:regA|Sint[14]" is converted into an equivalent circuit using register "reg:regA|Sint[14]~_emulated" and latch "reg:regA|Sint[14]~197"
+    Warning (13310): Register "reg:regA|Sint[13]" is converted into an equivalent circuit using register "reg:regA|Sint[13]~_emulated" and latch "reg:regA|Sint[13]~201"
+    Warning (13310): Register "reg:regA|Sint[12]" is converted into an equivalent circuit using register "reg:regA|Sint[12]~_emulated" and latch "reg:regA|Sint[12]~205"
+    Warning (13310): Register "reg:regA|Sint[11]" is converted into an equivalent circuit using register "reg:regA|Sint[11]~_emulated" and latch "reg:regA|Sint[11]~209"
+    Warning (13310): Register "reg:regA|Sint[10]" is converted into an equivalent circuit using register "reg:regA|Sint[10]~_emulated" and latch "reg:regA|Sint[10]~213"
+    Warning (13310): Register "reg:regA|Sint[9]" is converted into an equivalent circuit using register "reg:regA|Sint[9]~_emulated" and latch "reg:regA|Sint[9]~217"
+    Warning (13310): Register "reg:regA|Sint[8]" is converted into an equivalent circuit using register "reg:regA|Sint[8]~_emulated" and latch "reg:regA|Sint[8]~221"
+    Warning (13310): Register "reg:regA|Sint[7]" is converted into an equivalent circuit using register "reg:regA|Sint[7]~_emulated" and latch "reg:regA|Sint[7]~225"
+    Warning (13310): Register "reg:regA|Sint[6]" is converted into an equivalent circuit using register "reg:regA|Sint[6]~_emulated" and latch "reg:regA|Sint[6]~229"
+    Warning (13310): Register "reg:regA|Sint[5]" is converted into an equivalent circuit using register "reg:regA|Sint[5]~_emulated" and latch "reg:regA|Sint[5]~233"
+    Warning (13310): Register "reg:regA|Sint[4]" is converted into an equivalent circuit using register "reg:regA|Sint[4]~_emulated" and latch "reg:regA|Sint[4]~237"
+    Warning (13310): Register "reg:regA|Sint[3]" is converted into an equivalent circuit using register "reg:regA|Sint[3]~_emulated" and latch "reg:regA|Sint[3]~241"
+    Warning (13310): Register "reg:regA|Sint[2]" is converted into an equivalent circuit using register "reg:regA|Sint[2]~_emulated" and latch "reg:regA|Sint[2]~245"
+    Warning (13310): Register "reg:regA|Sint[1]" is converted into an equivalent circuit using register "reg:regA|Sint[1]~_emulated" and latch "reg:regA|Sint[1]~249"
+    Warning (13310): Register "reg:regA|Sint[0]" is converted into an equivalent circuit using register "reg:regA|Sint[0]~_emulated" and latch "reg:regA|Sint[0]~253"
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "count[0]" is stuck at GND
+    Warning (13410): Pin "count[1]" is stuck at GND
+    Warning (13410): Pin "count[2]" is stuck at GND
+    Warning (13410): Pin "count[3]" is stuck at GND
+    Warning (13410): Pin "count[4]" is stuck at GND
+    Warning (13410): Pin "count[5]" is stuck at GND
+    Warning (13410): Pin "count[6]" is stuck at GND
+    Warning (13410): Pin "count[7]" is stuck at GND
+    Warning (13410): Pin "count[8]" is stuck at GND
+    Warning (13410): Pin "count[9]" is stuck at GND
+    Warning (13410): Pin "count[10]" is stuck at GND
+    Warning (13410): Pin "count[11]" is stuck at GND
+    Warning (13410): Pin "count[12]" is stuck at GND
+    Warning (13410): Pin "count[13]" is stuck at GND
+    Warning (13410): Pin "count[14]" is stuck at GND
+    Warning (13410): Pin "count[15]" is stuck at GND
+    Warning (13410): Pin "count[16]" is stuck at GND
+    Warning (13410): Pin "count[17]" is stuck at GND
+    Warning (13410): Pin "count[18]" is stuck at GND
+    Warning (13410): Pin "count[19]" is stuck at GND
+    Warning (13410): Pin "count[20]" is stuck at GND
+    Warning (13410): Pin "count[21]" is stuck at GND
+    Warning (13410): Pin "count[22]" is stuck at GND
+    Warning (13410): Pin "count[23]" is stuck at GND
+    Warning (13410): Pin "count[24]" is stuck at GND
+    Warning (13410): Pin "count[25]" is stuck at GND
+    Warning (13410): Pin "count[26]" is stuck at GND
+    Warning (13410): Pin "count[27]" is stuck at GND
+    Warning (13410): Pin "count[28]" is stuck at GND
+    Warning (13410): Pin "count[29]" is stuck at GND
+    Warning (13410): Pin "count[30]" is stuck at GND
+    Warning (13410): Pin "count[31]" is stuck at GND
+    Warning (13410): Pin "count[32]" is stuck at GND
+    Warning (13410): Pin "count[33]" is stuck at GND
+    Warning (13410): Pin "count[34]" is stuck at GND
+    Warning (13410): Pin "count[35]" is stuck at GND
+    Warning (13410): Pin "count[36]" is stuck at GND
+    Warning (13410): Pin "count[37]" is stuck at GND
+    Warning (13410): Pin "count[38]" is stuck at GND
+    Warning (13410): Pin "count[39]" is stuck at GND
+    Warning (13410): Pin "count[40]" is stuck at GND
+    Warning (13410): Pin "count[41]" is stuck at GND
+    Warning (13410): Pin "count[42]" is stuck at GND
+    Warning (13410): Pin "count[43]" is stuck at GND
+    Warning (13410): Pin "count[44]" is stuck at GND
+    Warning (13410): Pin "count[45]" is stuck at GND
+    Warning (13410): Pin "count[46]" is stuck at GND
+    Warning (13410): Pin "count[47]" is stuck at GND
+    Warning (13410): Pin "count[48]" is stuck at GND
+    Warning (13410): Pin "count[49]" is stuck at GND
+    Warning (13410): Pin "count[50]" is stuck at GND
+    Warning (13410): Pin "count[51]" is stuck at GND
+    Warning (13410): Pin "count[52]" is stuck at GND
+    Warning (13410): Pin "count[53]" is stuck at GND
+    Warning (13410): Pin "count[54]" is stuck at GND
+    Warning (13410): Pin "count[55]" is stuck at GND
+    Warning (13410): Pin "count[56]" is stuck at GND
+    Warning (13410): Pin "count[57]" is stuck at GND
+    Warning (13410): Pin "count[58]" is stuck at GND
+    Warning (13410): Pin "count[59]" is stuck at GND
+    Warning (13410): Pin "count[60]" is stuck at GND
+    Warning (13410): Pin "count[61]" is stuck at GND
+    Warning (13410): Pin "count[62]" is stuck at GND
+    Warning (13410): Pin "count[63]" is stuck at GND
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 731 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 67 input pins
+    Info (21059): Implemented 97 output pins
+    Info (21061): Implemented 567 logic cells
+Info: Quartus II 32-bit Analysis & Synthesis was successful. 0 errors, 140 warnings
+    Info: Peak virtual memory: 406 megabytes
+    Info: Processing ended: Wed Dec 10 14:20:57 2025
+    Info: Elapsed time: 00:00:08
+    Info: Total CPU time (on all processors): 00:00:04
+
+
